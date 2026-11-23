@@ -106,6 +106,10 @@ with function `use_label()` (shown below) of with function `f_use_label()` (not
 shown).
 
 ```{r}
+#| fig.alt: >-
+#|   Reaction rate rises and levels off with concentration in both
+#|   Puromycin groups. The treated curve levels off higher. Labels report
+#|   AIC and BIC for each nonlinear fit.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -122,6 +126,10 @@ No pre-formatted equation label is available, and we have to assemble it from
 the numeric values of the fitted parameter estimates.
 
 ```{r}
+#| fig.alt: >-
+#|   Two rising Michaelis-Menten curves fit the treated and untreated
+#|   Puromycin observations. Each curve has a fraction label with its
+#|   fitted reaction parameters.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -145,6 +153,10 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 Deviations can be highlighted.
 
 ```{r}
+#| fig.alt: >-
+#|   Puromycin reaction rates and fitted nonlinear curves by treatment.
+#|   Vertical segments show the gap between each observed rate and its
+#|   fitted value.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -160,6 +172,10 @@ Residuals can be plotted
 
 
 ```{r}
+#| fig.alt: >-
+#|   Vertical residuals from the nonlinear fits plotted against
+#|   concentration. Points for treated and untreated samples lie above and
+#|   below zero.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   stat_fit_residuals(
@@ -171,6 +187,10 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 There is rarely a reason to do so, but `nls()` can be also used to fit linear models as it is a generally applicable procedure.
 
 ```{r}
+#| fig.alt: >-
+#|   Puromycin reaction rate by concentration with separate quadratic fits
+#|   for treated and untreated samples. Both fitted curves rise then bend
+#|   downward.
 poly.formula <- y ~ b0 + b1 * x + b2 * I(x^2)
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -187,6 +207,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 The statistics based on methods from package 'broom' always return numeric values and formatted strings need to be assembled for all parameters in user's R code within a call to `aes()`. The examples below produce figures nearly identical to the two first examples in the previous section. 
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   The fitted reaction rate increases toward a plateau for each treatment
+#|   group. Labels below the curves give AIC and BIC from broom.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -204,6 +227,10 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Puromycin reaction rates with distinct nonlinear curves by treatment.
+#|   Broom estimates appear in the two Michaelis-Menten equations beneath
+#|   the data.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -243,6 +270,10 @@ with function `use_label()` (shown below) of with function `f_use_label()` (not
 shown).
 
 ```{r, eval=eval_onls}
+#| fig.alt: >-
+#|   Puromycin reaction rates rise toward separate plateaus. The treated
+#|   curve is higher. Labels report AIC and BIC for the orthogonal
+#|   nonlinear fits.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -261,6 +292,10 @@ No pre-formatted equation label is available, and we have to assemble it from
 the numeric values of the fitted parameter estimates.
 
 ```{r}
+#| fig.alt: >-
+#|   Orthogonal nonlinear curves over the treated and untreated
+#|   reaction-rate observations. Two fraction labels show the parameters of
+#|   the Michaelis-Menten fits.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -288,6 +323,10 @@ Deviations can be highlighted
 So these deviations or residuals are **not** those whose squares have been minimized, but instead, computed as is OLS but relative to the curve fitted by ONLS, i.e., using residuals orthogonal to the fitted curve.
 
 ```{r}
+#| fig.alt: >-
+#|   Puromycin reactions with orthogonal nonlinear fits by treatment.
+#|   Segments connect the observed rates to the fitted rates at each
+#|   concentration.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -303,6 +342,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 The same residuals as highlighted above can be plotted. However, _these are not the orthogonal residuals used to fit the model_.
 
 ```{r}
+#| fig.alt: >-
+#|   Vertical residuals from the orthogonal nonlinear fit plotted against
+#|   concentration, with separate colors for treated and untreated samples.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   stat_fit_residuals(
@@ -315,6 +357,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 Function  `onls()` can also be used to fit linear models using the orthogonal least-squares approach.
 
 ```{r}
+#| fig.alt: >-
+#|   Reaction rate against concentration by treatment. Separate orthogonal
+#|   quadratic fits curve downward at high concentration.
 poly.formula <- y ~ b0 + b1 * x + b2 * I(x^2)
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -331,6 +376,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 The statistics based on methods from package 'broom' always return only numeric values and formatted strings need to be assembled in user's R code within a call to `aes()`. The examples below produce figures nearly identical to the two first examples in the previous section. 
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   The two orthogonal nonlinear curves rise toward separate plateaus.
+#|   Broom supplies AIC and BIC labels beneath the curves.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -350,6 +398,10 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Treated and untreated Puromycin observations with orthogonal
+#|   Michaelis-Menten curves. The labels show equations assembled from
+#|   broom parameter estimates.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -376,6 +428,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 ## Comparison of ONLS to NLS
 
 ```{r}
+#| fig.alt: >-
+#|   Dashed least-squares curves sit higher at low concentrations. The
+#|   solid orthogonal fits end higher in both treatment groups.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   stat_poly_line(method = "nls", 

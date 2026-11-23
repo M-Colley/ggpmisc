@@ -335,6 +335,9 @@ head(my.data)
 The first example, using `stat_correlation()` defaults, creates a plot with an annotation showing Pearson's correlation coefficient.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward scatterplot of y against x with the Pearson correlation
+#|   coefficient annotated.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_correlation()
@@ -343,6 +346,9 @@ ggplot(my.data, aes(x, y)) +
 The defaults support grouping by mapping of a factor to an aesthetic, in this example, `colour`.
 
 ```{r}
+#| fig.alt: >-
+#|   Two colored groups of points rise with x. Each group has a Pearson
+#|   correlation label in its color.
 ggplot(my.data, aes(x, y.grp, colour = group)) +
   geom_point() +
   stat_correlation()
@@ -351,6 +357,9 @@ ggplot(my.data, aes(x, y.grp, colour = group)) +
 Spearman's ($\rho$, rho) and Kendall's ($\tau$, tau) approaches to rank correlation are also supported, and can be selected with an argument passed to parameter `method`.
 
 ```{r}
+#| fig.alt: >-
+#|   Two colored, upward-trending groups have separate Spearman rank
+#|   correlation labels.
 ggplot(my.data, aes(x, y.grp, color = group)) +
   geom_point() +
   stat_correlation(method = "spearman")
@@ -365,6 +374,9 @@ Statistic `stat_correlation()` returns multiple formatted character strings that
 When data are grouped, one message is issued for each set of computed values or for each model fit. The names of the returned variables, with some exceptions, have the suffix `.label`, e.g., `n` corresponds to `n.label`. These longer names are also recognised by these two functions, and must always be used when retrieving them with `after_stat()`. In the message, `1 rows` indicates that the returned data frame has one row per group. 
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with separate colored labels for each group's Pearson r, t
+#|   statistic, p-value, and sample size.
 ggplot(my.data, aes(x, y.grp, color = group)) +
   geom_point() +
   stat_correlation(mapping = use_label("r", "t", "P", "n"))
@@ -379,6 +391,9 @@ Together with the formatted `character` strings, `numeric`, and in special cases
 It is possible to set other aesthetics based on the outcome of the correlation test. Within `after_stat()` the full name of the variables is used. In this example, `cor` is the numeric value and `cor.label` the matching character string.
 
 ```{r}
+#| fig.alt: >-
+#|   Panels A and B each show an upward point cloud and a Pearson
+#|   correlation label. Correlations above 0.955 appear in red.
 ggplot(my.data, aes(x, y.grp)) +
   geom_point() +
   stat_correlation(mapping = 
@@ -422,6 +437,9 @@ As above, messages are displayed in R interactive sessions, one by each of the t
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with a fitted cubic curve, a shaded confidence band, and
+#|   an R-squared label.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -432,6 +450,9 @@ ggplot(my.data, aes(x, y.poly)) +
 As indicated by the message, a ready formatted equation, `"eq"`, is returned as a _plotmath_-formatted `character` string ready to be parsed into an *expression*. Function `use_label()` or function `f_use_label()` can be used to select or assemble the expression and map it to the `label` aesthetic. The default separator used in `use_label()` is suitable for labels to be parsed into R expressions, but it can be over-ridden by passing an argument to parameter `sep`. In this example, the fitted model equation with `"eq"`, $R^2$ with `"R2"` and the number of observations in the group as `"n"`, are are mapped to the `label` aesthetic with `use_label()` .
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with a fitted cubic and confidence band. The annotation
+#|   gives the equation, R-squared, and sample size.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -442,6 +463,9 @@ ggplot(my.data, aes(x, y.poly)) +
 In this case we add another layer with additional information, creating the mapping to the label aesthetic with function `f_use_label()`. The code below shows how the labels are inserted at the locations marked with `%s` in the format string. In this case, to keep the example simple, the labels are formatted as plain ASCII `"text"`.
 
 ```{r}
+#| fig.alt: >-
+#|   Cubic fit through a point cloud. One line of text gives the equation
+#|   and R-squared, and a second gives the fitting method and sample size.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -461,6 +485,9 @@ In the example above, two separate layers were needed because _plotmath_ express
 When different annotations are to be at far apart locations on the plotting area, it is always necessary to add them as separate plot layers. Below, the adjusted coefficient of determination, $R^2_\mathrm{adj}$, and Akaike's information criterion, AIC, are inserted in different sizes and in opposite corners using two plot layers, i.e., We call `stat_poly_eq()` twice.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with a cubic fit. Adjusted R-squared appears at top left
+#|   and the smaller AIC label at bottom right.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -477,6 +504,9 @@ To be able to fully exploit the flexibility of `f_use_label()` or when construct
 It can be easier in many cases to insert a literal character string into an expression, as shown nelow, by enclosing the string in `*`. *Plotmath* expressions can be used in 'ggplot2' also for the scale `name`, including axis titles, as shown below, to ensure consistency with the typesetting.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward-curving cubic fit with italic axis titles and a label
+#|   joining its equation to adjusted R-squared with the word with.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -491,6 +521,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Next, one example of how to remove the left hand side (*lhs*).
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Scatterplot with a cubic fit whose label shows only the polynomial on
+#|   the right side of the equation.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -503,6 +536,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Replacing the default *lhs* $y$ by $\hat{y}$.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Scatterplot with a cubic curve and its equation, where the response on
+#|   the left is y with a hat.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -515,6 +551,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Replacing both the *lhs*, $y$, and the variable symbol, $x$, used on the *rhs*.
 
 ```{r}
+#| fig.alt: >-
+#|   Cubic fit annotated with an equation in h and z. The two symbols also
+#|   label the vertical and horizontal axes.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -529,6 +568,10 @@ ggplot(my.data, aes(x, y.poly)) +
 As any valid *plotmath* expression can be used, Greek letters are also supported, as well as the inclusion in the label of variable transformations used in the model formula or applied to the data. In addition, in the next example we insert white space in between the parameter estimates and the variable symbol in the equation.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Cubic fit to the transformed response. The axes and the fitted
+#|   equation use omega and the base-ten logarithm of delta plus one
+#|   million.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, log10(y.poly + 1e6))) +
   geom_point() +
@@ -548,6 +591,9 @@ A degree 1 polynomial is linear regression with `formula = y ~ x`, which is the 
 Intercept forced to zero for a third degree polynomial defined explicitly, as this case is not supported by `poly()`.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Scatterplot with an upward cubic curve constrained to pass through the
+#|   origin. Its equation has no constant term.
 formula <- y ~ x + I(x^2) + I(x^3) - 1
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -558,6 +604,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Even when labels are returned, numeric values are also returned. This can be used in `ggplot2::aes()` for example to show the equation only if a certain condition like a minimum value for `r.square` or maximum value for `p.value` has been exceeded. This is useful when the same model fitting code and plot are used with different data. This is the case when a report with embedded code is run repeatedly on different data, but also when the data in different groupings or planels in a single plot differ. 
 
 ```{r}
+#| fig.alt: >-
+#|   Cubic fit with an equation and adjusted R-squared annotation. The plot
+#|   also uses italic x and y axis titles.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -577,6 +626,9 @@ We give below several examples to demonstrate how other components of the `ggplo
 _Facets work as expected both with fixed or free scales._ Although below we have to adjust the size of the font used for the equation.
 
 ```{r}
+#| fig.alt: >-
+#|   Panels A and B show separate cubic fits with equation labels and a
+#|   shared vertical scale.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly.grp)) +
   geom_point() +
@@ -587,6 +639,9 @@ ggplot(my.data, aes(x, y.poly.grp)) +
 ```
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Panels A and B show separate cubic fits with equation labels and
+#|   independently scaled vertical axes.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly.grp)) +
   geom_point() +
@@ -600,6 +655,9 @@ ggplot(my.data, aes(x, y.poly.grp)) +
 _Grouping works as expected._ In this example we create groups using the colour aesthetic, but factors or discrete variables mapped to other aesthetics including the "invisible" `group` aesthetic are handled in the same way.
 
 ```{r}
+#| fig.alt: >-
+#|   Two colored groups share one panel. Each has an upward cubic fit, a
+#|   confidence band, and a matching equation label.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, 
        aes(x, y.poly.grp, colour = group)) +
@@ -612,6 +670,9 @@ ggplot(my.data,
 When not using colours, a label can be added to the equation to identify the group, using a pseudo-aesthetic named `grp.label`.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Two black cubic curves use different line types. Bold A and B labels
+#|   identify their equations.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, 
        aes(x, y.poly.grp, 
@@ -628,6 +689,9 @@ ggplot(my.data,
 `stat_poly_eq()` computes the positions of labels for the different groups to avoid overlaps. Flexibility in this automation is provided by parameters, `vstep` and `hstep` giving the distance between succesive labels, and `label.x` and `label.y` giving the starting position, when of length equal to one, all in values ranging between 0 and 1, when using the default `ggpp::geom_text_npc()`. `label.x` and `label.y` in addition accept character strings, similarly as for justification in 'ggplot2' geoms.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Colored cubic fits and points for groups A and B, with the equations
+#|   centered horizontally and stacked from the top.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data,
        aes(x, y.poly.grp, colour = group)) +
@@ -642,6 +706,9 @@ ggplot(my.data,
 The arguments passed to `label.x` and `label.y` can directly given the positions of each of the labels.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Two colored cubic fits with equations placed separately at the lower
+#|   right and upper center.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data,
        aes(x, y.poly.grp, colour = group)) +
@@ -659,6 +726,9 @@ If grouping is not the same within each panel created by faceting, i.e., not all
 In some cases gaps may be desirable to highlight the missing groups, but when not, the positions can be set manually as in the next example.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Two panels show four color-coded subgroups with separate cubic fits.
+#|   Automatic R-squared label positions leave gaps for absent subgroups.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, 
        aes(x, y.poly.grp, colour = group.abcd)) +
@@ -673,6 +743,9 @@ ggplot(my.data,
 When setting positions manually with arguments (in `npc` units, 0..1) passed as argument to `label.y` (and/or to `label.x`), be aware that the positions must be given in the order of the levels of the groups, e,g,, factor levels in the case of grouping based on a single aesthetic. This is not necessarily the plot panel order!
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Four color-coded cubic fits across two panels. Their R-squared labels
+#|   use manually assigned vertical positions.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, 
        aes(x, y.poly.grp, colour = group.abcd)) +
@@ -689,6 +762,9 @@ It is possible to use `ggplot2::geom_text()`, `ggplot2::geom_label()`, `ggtext::
 `ggrepel::geom_marquee_repel()`, etc., instead of the default `ggpp::geom_text_npc()` (or `ggpp::geom_label_npc()`)  but in such case, if label coordinates are given as numeric values they should be expressed in native data coordinates.
 
 ```{r}
+#| fig.alt: >-
+#|   Two colored cubic fits with equation labels positioned at specified x
+#|   and y coordinates.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, 
        aes(x, y.poly.grp, colour = group)) +
@@ -709,6 +785,9 @@ Occasionally, possibly as a demonstration in teaching, we may want to compare a 
 As is the case for model fitting functions themselves, which variable is dependent (response) and which is independent (explanatory) is simply indicated by the model equation passed as argument to `formula`, or consistently with `ggplot2::stat_smooth()` through parameter `orientation` as show below.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with a blue regression of y on x and a red regression of x
+#|   on y. Each line has an equation and R-squared label.
 ggplot(my.data, aes(x, y.sd3)) +
   geom_point() +
   stat_poly_line(color = "blue") +
@@ -738,6 +817,9 @@ As described above for `stat_correlation()` and `stat_poly_eq()`, the message in
 
 
 ```{r}
+#| fig.alt: >-
+#|   Upward-trending scatterplot with a major axis regression line and its
+#|   fitted equation.
 ggplot(my.data, aes(x, y.sd3)) +
   geom_point() +
   stat_ma_line() +
@@ -746,6 +828,10 @@ ggplot(my.data, aes(x, y.sd3)) +
 
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with blue and dashed red major axis fits for opposite
+#|   response orientations. Two colored labels give the equations and
+#|   R-squared.
 ggplot(my.data, aes(x, y.sd3)) +
   geom_point() +
   stat_ma_line(color = "blue") +
@@ -779,6 +865,9 @@ Similarly to `ggplot2::stat_quantiles()`, `stat_quant_eq()` and `stat_quant_line
 With default quantiles, 0.25, 0.50, 0.75, equivalent to those used for the box of box plots, a plot with a line for median regression and a band highlighting the space between the quartiles is plotted.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Cubic-shaped scatterplot with a fitted median curve and a shaded band
+#|   between the 25th and 75th percentiles.
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
   stat_quant_band(formula = y ~ poly(x, 2))
@@ -787,6 +876,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Overriding the values for `quantiles` we find a boundary containing 90% of the observations. We add the observations as points after the lines so that points are plotted on top of the lines.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Scatterplot with quadratic curves for the 5th and 95th percentiles
+#|   forming lower and upper boundaries.
 ggplot(my.data, aes(x, y.poly)) +
   stat_quant_line(formula = y ~ poly(x, 2), 
                   quantiles = c(0.05, 0.95)) +
@@ -796,6 +888,9 @@ ggplot(my.data, aes(x, y.poly)) +
 A line for the quantile regression plus a confidence band for it is the default for a single quantile.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Scatterplot with a fitted median regression curve and a shaded
+#|   confidence band for the median.
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2), 
@@ -809,6 +904,9 @@ ggplot(my.data, aes(x, y.poly)) +
 ```
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Scatterplot with a median curve and shaded interquartile band, with
+#|   three labeled quantile equations.
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
   stat_quant_band(formula = formula, 
@@ -822,6 +920,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Grouping and faceting are supported by `stat_quant_eq()`, `stat_quant_line()` and `stat_quant_band()` as described above for the other statistics described above. The main difference is that for each data group more than one model can be fit with one prediction line and one equation for each model. The positions are as in other cases computed automatically or set manually.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Points from two groups with separate quartile and median curves. Each
+#|   equation names its group and quantile.
 ggplot(my.data, 
        aes(x, y.poly.grp, group = group, grp.label = group)) +
   geom_point() +
@@ -835,6 +936,9 @@ ggplot(my.data,
 Grouping can be combined with a group label by mapping in `aes()` a character variable to `grp.label`.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Two point shapes and line types distinguish groups A and B. Each group
+#|   has fitted 5th and 95th percentile curves with equation labels.
 ggplot(my.data, 
        aes(x, y.poly.grp, group = group, linetype = group, 
            shape = group, grp.label = group)) +
@@ -857,6 +961,10 @@ ggplot(my.data,
 In some cases *double quantile regression* is an informative method to assess reciprocal constraints. For this a fit of *x* on *y* and one of *y* on *x* in the same plot are computed for a large quantile. As is the case for model fitting functions themselves this is simply indicated by the model passed as argument to `formula`, or consistently with `ggplot2::stat_smooth()` through parameter `orientation`.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   Scatterplot with two straight quantile fits in opposite orientations,
+#|   with labeled equations for the 5th percentile of y and 95th percentile
+#|   of x.
 ggplot(my.data, aes(x, y.sd3)) +
   geom_point() +
   stat_quant_line(formula = y ~ x, 
@@ -898,6 +1006,9 @@ Messages listing the available variables and labels are issued to the R console 
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Density plot of Old Faithful waiting times with two fitted normal
+#|   component curves, their combined density, and the mixture equation.
 ggplot(faithful, aes(x = waiting)) +
    stat_distrmix_line() +
    stat_distrmix_eq() +
@@ -907,6 +1018,10 @@ ggplot(faithful, aes(x = waiting)) +
 Orientation is set automatically based on the mapping of the data to the `x` or the `y` aesthetic.
 
 ```{r}
+#| fig.alt: >-
+#|   Old Faithful mixture density with waiting time on the vertical axis.
+#|   The component and combined curves are labeled with the mixture
+#|   equation.
 ggplot(faithful, aes(y = waiting)) +
    stat_distrmix_line() +
    stat_distrmix_eq(label.x = "right", label.y = "bottom")
@@ -915,6 +1030,9 @@ ggplot(faithful, aes(y = waiting)) +
 The default for `stat_distrmix_line()` is to return densities for components and their sum, below only the sum is returned. With `"members"` only the components would have been returned.  
 
 ```{r}
+#| fig.alt: >-
+#|   A two-peaked density curve gives the sum of the fitted Old Faithful
+#|   mixture components. Its equation is labeled below.
 ggplot(faithful, aes(x = waiting)) +
    stat_distrmix_line(components = "sum") +
    stat_distrmix_eq(label.x = "middle", label.y = "bottom")
@@ -923,6 +1041,9 @@ ggplot(faithful, aes(x = waiting)) +
 `stat_distrmix_area()` returns by default only the sum of the components and plots it with `geom_area()`.
 
 ```{r}
+#| fig.alt: >-
+#|   Filled two-peaked density of Old Faithful waiting times with the
+#|   mixture equation in white over the shaded area.
  ggplot(faithful, aes(x = waiting)) +
    stat_distrmix_area() +
    stat_distrmix_eq(colour = "white", 
@@ -932,6 +1053,9 @@ ggplot(faithful, aes(x = waiting)) +
 The position of the quantiles can be highlighted in a single plot layer by mapping the returned integer variable `quant.splits` to the `fill` aesthetic.
 
 ```{r}
+#| fig.alt: >-
+#|   Old Faithful mixture density with an outlined upper edge and
+#|   contrasting shading for the central 95 percent and the two tails.
  ggplot(faithful, aes(x = waiting)) +
    stat_distrmix_area(aes(fill = after_stat(quant.splits != 2)), 
                       colour = "black", outline.type = "upper",
@@ -951,6 +1075,9 @@ The default is Tukey contrasts (all pairs) using Tukey's HSD (honestly significa
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Boxplots show highway mileage by cylinder count. Comparison bars below
+#|   the boxes label adjusted p-values.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
   stat_multcomp() +
@@ -962,6 +1089,9 @@ To complement the examples in the documentation of the function, below are examp
 Alternatives to the default "tag" values used to describe the adjustment method can be obtained with arguments passed to parameter `adj.method.tag`. In the first example the abbreviation is three characters long, instead of the default of four.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots by cylinder count, with pairwise p-value bars
+#|   labeled using an abbreviated Holm adjustment tag.
 # position of contrasts' bars (manual)
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
@@ -974,6 +1104,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 Here we use a negative value to use an abbreviation of the word "adjusted" to three characters.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots by cylinder count, with pairwise p-value bars
+#|   labeled using an abbreviation of adjusted.
 # position of contrasts' bars (manual)
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
@@ -986,6 +1119,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 A character string passed as argument is used as is, here to set the tag in Spanish.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots with contrast bars. The adjusted p-value
+#|   labels use the custom word ajustada.
 # position of contrasts' bars (manual)
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
@@ -997,6 +1133,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 A numeric vector passed to `label.y` can be used to manually set the location of each label along the _y_ axis.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots with three Dunnett contrast bars comparing
+#|   cylinder groups with the reference group.
 # position of contrasts' bars (manual)
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
@@ -1007,6 +1146,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots with pairwise contrast bars arranged at
+#|   manually spaced heights below the boxes.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
    stat_multcomp(label.y = 
@@ -1020,6 +1162,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 We can pre-compute the numeric vector to achieve special positioning, in this case, next to each observation.
 
 ```{r}
+#| fig.alt: >-
+#|   Mean highway mileage with standard error bars by cylinder count.
+#|   Letters beside the group means indicate pairwise comparison results.
 means <-
   aggregate(mpg$hwy,
             by = list(mpg$cyl), 
@@ -1036,6 +1181,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 We can override the default use of `geom_text()` and also remove the _P_ critical label.
 
 ```{r}
+#| fig.alt: >-
+#|   Vertical highway mileage boxplots by cylinder count with boxed letters
+#|   for the comparison groups.
 # Using other geometries
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
@@ -1047,6 +1195,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 Orientation is set automatically based on the mapping of a factor to either the _x_ or _y_ aesthetic. _Currently, `label.type = "bars"` is not supported in flipped plots like this one._
 
 ```{r}
+#| fig.alt: >-
+#|   Horizontal highway mileage boxplots by cylinder count with boxed
+#|   letters beside the groups.
 # Using other geometries
 ggplot(mpg, aes(hwy, factor(cyl))) +
   geom_boxplot(width = 0.33) +
@@ -1058,6 +1209,9 @@ ggplot(mpg, aes(hwy, factor(cyl))) +
 With Dunnet contrasts, the use of bars can clutter a plot, and we can alternatively show the outcome for each level that has been compared to a control, the first level.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots by cylinder count with Dunnett p-value labels
+#|   placed below the comparison groups.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
   stat_multcomp(aes(x = stage(start = factor(cyl),
@@ -1069,6 +1223,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots by cylinder count with significance stars
+#|   below the comparison groups for Dunnett contrasts.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
   stat_multcomp(aes(x = stage(start = factor(cyl),
@@ -1083,6 +1240,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 The returned value includes numeric and logical values in addition to character strings mapped to the `label` aesthetic. These values can be used to encode the outcomes using additional or different aesthetics than the default ones. Variable `p.signif` is `TRUE` if `p.value < mc.critical.p.value`. In this example `colour` is used to highlight significant pairwise differences based on the default critical value of 0.05.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots with contrast bars and labels in gray or
+#|   black according to statistical significance.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
   stat_multcomp(aes(colour = after_stat(p.signif)),
@@ -1094,6 +1254,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 Alternatively, the test can be done against the `numeric` variable `p.value`. In this example `fill` is used to highlight significant pairwise differences and arrows heads added to segments.
 
 ```{r}
+#| fig.alt: >-
+#|   Highway mileage boxplots with double-ended contrast arrows and label
+#|   fills that distinguish p-values below 0.01.
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33) +
   stat_multcomp(aes(fill = after_stat(p.value) < 0.01),
@@ -1112,6 +1275,9 @@ Sometimes we need to quickly plot residuals matching fits plotted with `stat_pol
 `stat_fit_residuals()` can be used to plot the residuals from models of *y* on *x* or *x* on *y* fitted with function `lm`, `MASS:rlm`, `quantreg::rq` (only median regression) or a user-supplied model fitting function and arguments. In the data frame returned by the statistic the response variable, *y* or *x*, is replaced by the residuals from the fit and thus also by default mapped to the aesthetic of the same name. The default geom is `"point"`.
 
 ```{r}
+#| fig.alt: >-
+#|   Residuals from separate linear fits are plotted in group colors
+#|   against x. A dashed horizontal line marks zero.
 ggplot(my.data, aes(x, y.otlr, colour = group)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   stat_fit_residuals()
@@ -1120,6 +1286,9 @@ ggplot(my.data, aes(x, y.otlr, colour = group)) +
 Depending on the model fit `method`, two types of _weights_ are available: prior weights given by a numeric variable mapped to `weight` aesthetic and posterior weights, actually used, and possibly computed during model fitting. Depending on the model fit `method`, prior and posterior weights can be the same or not. Function `stat_fit_residuals()` returns the _prior_ weights supplied as input in the variable named `weights` and the posterior actually used weights, possibly computed "robustness" weights, in the variable named `posterior.weights`. Both weights can be mapped to aesthetics, in the example below `posterior.weights` are mapped to `size`. In a model fit with `lm()`, prior and posterior weights are the same, and by default equal to 1. In a fit with `rlm()` prior and posterior weights differ.
 
 ```{r}
+#| fig.alt: >-
+#|   Residuals from robust fits for two groups with a dashed zero line.
+#|   Larger symbols represent larger posterior weights.
 ggplot(my.data, aes(x, y.otlr, colour = group)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   stat_fit_residuals(method = "rlm",
@@ -1131,6 +1300,9 @@ ggplot(my.data, aes(x, y.otlr, colour = group)) +
 Of course it is also possible to plot the weights themselves.
 
 ```{r}
+#| fig.alt: >-
+#|   Posterior weights from robust fits plotted directly against x for two
+#|   colored groups.
 ggplot(my.data, aes(x, y.otlr, colour = group)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   stat_fit_residuals(method = "rlm",
@@ -1144,6 +1316,9 @@ ggplot(my.data, aes(x, y.otlr, colour = group)) +
 Weighted residuals are available, and in this case they differ from the raw residuals as we have mapped variable `wght.otlr` to the `weight` aesthetic. Compare the two figures below.
 
 ```{r}
+#| fig.alt: >-
+#|   Unweighted residuals from models fitted with prior weights. Symbol
+#|   area reflects the posterior weight and color identifies the group.
 ggplot(my.data, aes(x, y.otlr, 
                     weight = wght.otlr, 
                     colour = group)) +
@@ -1155,6 +1330,9 @@ ggplot(my.data, aes(x, y.otlr,
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Weighted residuals from models fitted with prior weights. Symbol area
+#|   reflects the posterior weight and color identifies the group.
 ggplot(my.data, aes(x, y.otlr, 
                     weight = wght.otlr, 
                     colour = group)) +
@@ -1170,6 +1348,9 @@ ggplot(my.data, aes(x, y.otlr,
 When teaching we may wish to highlight residuals in plots used in slides and notes. Statistic `stat_fit_deviations()` makes it easy to achieve this for the residuals from models of *y* on *x* or *x* on *y* fitted with function `lm`, `MASS:rlm`, `quantreg::rq` (only median regression) or a user-supplied model fitting function and arguments. The observed values are mapped to aesthetics *x* and *y*, and the fitted values are mapped to aesthetics *xend* and *yend*. As the default geom is `"segment"`, each deviation is displayed as a segment.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot with an upward fitted line. Red vertical segments connect
+#|   observed points to their fitted values.
 ggplot(my.data, aes(x, y)) +
   stat_poly_line() +
   stat_fit_deviations(colour = "red") +
@@ -1179,6 +1360,9 @@ ggplot(my.data, aes(x, y)) +
 The geometry used by default is `ggplot2::geom_segment()` and additional aesthetics can be mapped or set to constant values. Here we add arrowheads.
 
 ```{r, eval=eval_flag}
+#| fig.alt: >-
+#|   Scatterplot with a fitted line and double-ended arrows showing the
+#|   vertical deviations of points from that line.
 ggplot(my.data, aes(x, y)) +
   stat_poly_line() +
   geom_point() +
@@ -1189,6 +1373,9 @@ ggplot(my.data, aes(x, y)) +
 When weights are available, either supplied by the user, or computed as part of the fit, they are returned in `data`. Having weights available allows encoding them using colour. We here use a robust regression fit with `MASS::rlm()`.
 
 ```{r}
+#| fig.alt: >-
+#|   A robust fitted line with vertical deviations colored by posterior
+#|   weight, showing the lower weights assigned to some points.
 ggplot(my.data, aes(x, y.otlr)) +
   stat_poly_line(method = "rlm") +
   stat_fit_deviations(formula = formula, method = "rlm",
@@ -1203,6 +1390,9 @@ ggplot(my.data, aes(x, y.otlr)) +
 With method `gls()` using `varPower()` fitted weights for heterogeneous error variance describe the change in variance as a function of the fitted values.
 
 ```{r, eval=eval_nlme}
+#| fig.alt: >-
+#|   Scatterplot and generalized least-squares fit. Vertical deviations are
+#|   colored by variance weights that change with x.
 ggplot(my.data, aes(x, y.sdinc)) +
   stat_fit_deviations(method = "gls", 
                       method.args = list(weights = varPower(form = ~ x)),
@@ -1220,6 +1410,9 @@ ggplot(my.data, aes(x, y.sdinc)) +
 Of course it is also possible to plot the weights themselves, most easily using `stat_fit_residuals()`. The weights when using a variance covariate with its defaults, like here, are a function of the *predicted* values rather than of the individual deviations.
 
 ```{r, eval=eval_nlme}
+#| fig.alt: >-
+#|   Posterior variance weights from the generalized least-squares fit
+#|   plotted against x. Point color encodes the same weight.
 ggplot(my.data, aes(x, y.sdinc)) +
   stat_fit_residuals(method = "gls", 
                      method.args = list(weights = varPower(form = ~ x)),
@@ -1250,6 +1443,9 @@ call to `aes()` using `after_stat()`.
 _Many of variable names, and are those returned by the call to the `glance()` method._
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Scatterplot with a separate colored cubic fit for each group. Each
+#|   fitted model has a p-value label at lower right.
 # formula <- y ~ poly(x, 3, raw = TRUE)
 # broom::augment does not handle poly() correctly!
 formula <- y ~ x + I(x^2) + I(x^3)
@@ -1274,6 +1470,9 @@ In this case the message issued in interactive R sessions is different to that f
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Puromycin reaction rate rises and levels off with concentration for
+#|   two treatment states. The labels give each fit's AIC and BIC.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -1300,6 +1499,9 @@ This statistic **ignores grouping** based on aesthetics, i.e., uses a _panel fun
 The default output of `stat_fit_tb()` is the default output from `tidy(fm)` where `fm` is the fitted model.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Cubic fit through simulated data with an inset table of coefficient
+#|   estimates, standard errors, t statistics, and p-values.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -1317,6 +1519,9 @@ ggplot(my.data, aes(x, y.poly)) +
 When `tb.type = "fit.anova"` the output returned is that from `tidy(anova(fm))` where `fm` is the fitted model. Here we also show how to replace names of columns and terms, and exclude one column, in this case, the mean squares.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Cubic fit with an inset ANOVA table listing the three polynomial
+#|   effects and residuals.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -1335,6 +1540,9 @@ ggplot(my.data, aes(x, y.poly)) +
 When `tb.type = "fit.coefs"` the output returned is that of `tidy(fm)` after selecting the `term` and `estimate` columns.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Cubic fit with its coefficient summary table inset at the left center
+#|   of the plot.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -1348,6 +1556,9 @@ ggplot(my.data, aes(x, y.poly)) +
 Faceting works as expected, but grouping is ignored as mentioned above. In this case, the colour aesthetic is not applied to the text of the tables. Furthermore, if `label.x.npc` or `label.y.npc` are passed numeric vectors of length \> 1, the corresponding values are obeyed by the different panels.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Separate Puromycin treatment panels show saturating fitted curves.
+#|   Each panel includes a table of fitted model coefficients.
 micmen.formula <- y ~ SSmicmen(x, Vm, K)
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   facet_wrap(~state) +
@@ -1368,6 +1579,9 @@ The data in the example below are split by ggplot into six groups based on the l
 variable mapped to `x` is a factor. 
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Mean chick weight and standard error by feed type. A panel-wide inset
+#|   gives the ANOVA for differences among feeds.
 ggplot(chickwts, aes(reorder(factor(feed), weight), weight)) +
   stat_summary(fun.data = "mean_se") +
   stat_fit_tb(tb.type = "fit.anova",
@@ -1380,6 +1594,9 @@ ggplot(chickwts, aes(reorder(factor(feed), weight), weight)) +
 We can flip the system of coordinates, if desired.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Horizontal point and error-bar plot of chick weight by feed, with the
+#|   ANOVA table inset at left.
 ggplot(chickwts, aes(reorder(factor(feed), weight), weight)) +
   stat_summary(fun.data = "mean_se") +
   stat_fit_tb(tb.type = "fit.anova", label.x = "left", size = 3) +
@@ -1391,6 +1608,9 @@ ggplot(chickwts, aes(reorder(factor(feed), weight), weight)) +
 It is also possible to rotate the table using `angle`. Here we also show how to replace the column headers with strings to be parsed into R expressions.
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Mean chick weight and standard error by feed, with a vertically
+#|   rotated ANOVA table to the right of the points.
 ggplot(chickwts, aes(reorder(factor(feed), weight), weight)) +
   stat_summary(fun.data = "mean_se") +
   stat_fit_tb(tb.type = "fit.anova",
@@ -1420,6 +1640,10 @@ In an interactive R session the message displayed is:
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Two saturating Puromycin concentration-response curves annotated with
+#|   the fitted maximum rate and half-saturation concentration, with
+#|   standard errors.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -1443,6 +1667,9 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
 Using paste we can build a string that can be parsed into an R expression, in this case for a non-linear equation.
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Puromycin concentration-response curves for two treatment states, with
+#|   their fitted Michaelis-Menten equations centered below the points.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -1489,6 +1716,9 @@ stat_micmen_eq <- function(vstep = 0.12,
 The code for the figure is now simpler, and still produces the same figure (not shown).
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Puromycin points and saturating curves for both treatment states, with
+#|   two Michaelis-Menten equations placed at the bottom.
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
 ggplot(Puromycin, aes(conc, rate, colour = state)) +
   geom_point() +
@@ -1508,6 +1738,9 @@ In an interactive R session the message below is displayed, giving all the infor
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Reciprocal highway mileage rises with engine displacement. A fitted
+#|   median line is labeled with its equation and slope p-value.
 my_formula <- y ~ x
 my.format <- 'y~"="~%.3g+%.3g~x*", with "*italic(P)~"="~%.3f'
 ggplot(mpg, aes(displ, 1 / hwy)) +
@@ -1555,6 +1788,9 @@ stat_rq_eqn <-
 And the code of the figure now as simple as. Figure not shown, as is identical to the one above.
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Scatterplot of reciprocal highway mileage versus displacement with a
+#|   fitted median line and its annotated equation.
 ggplot(mpg, aes(displ, 1 / hwy)) +
   geom_point() +
   stat_quantile(quantiles = 0.5, formula = my_formula) +
@@ -1576,6 +1812,9 @@ In an interactive R session the message below is displayed, giving all the infor
 As the intention is to plot a line and/or band, the returned data frame has numerous rows per group, the number given by the arguments passed in the call (or their defaults).
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Simulated observations with a fitted cubic from model predictions. A
+#|   shaded band shows uncertainty around the fit.
 # formula <- y ~ poly(x, 3, raw = TRUE)
 # broom::augment does not handle poly correctly!
 formula <- y ~ x + I(x^2) + I(x^3)
@@ -1588,6 +1827,9 @@ ggplot(my.data, aes(x, y.poly)) +
 We can override the variable returned as `y` to be any of the variables in the data frame returned by `broom::augment()` while still preserving the original `y` values.
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Raw residuals from the cubic fit plotted against x as a cloud centered
+#|   roughly around zero.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly)) +
   stat_fit_augment(method = "lm",
@@ -1598,6 +1840,9 @@ ggplot(my.data, aes(x, y.poly)) +
 ```
 
 ```{r, eval=eval_broom}
+#| fig.alt: >-
+#|   Standardized residuals from separate cubic fits plotted against x,
+#|   with the two groups shown in different colors.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly.grp, colour = group)) +
   stat_fit_augment(method = "lm",
@@ -1610,6 +1855,9 @@ ggplot(my.data, aes(x, y.poly.grp, colour = group)) +
 We can use any model fitting method for which `broom::augment()` is implemented. _When a method, in this case of `nls()`, has no support for confidence limits and 'broom' sets them to `NA` values, no confidence band in plotted and a warning is issued by `geom_smooth()` from 'ggplot2', which is the default. The warning is harmless, and if needed, it can be silenced by passing `geom = "line"` to override the default._
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Fuel economy plotted against vehicle weight with a decreasing
+#|   nonlinear exponential fit.
 args <- list(formula = y ~ k * e ^ x,
              start = list(k = 1, e = 2))
 ggplot(mtcars, aes(wt, mpg)) +
@@ -1619,6 +1867,9 @@ ggplot(mtcars, aes(wt, mpg)) +
 ```
 
 ```{r, eval=(eval_flag && eval_broom)}
+#| fig.alt: >-
+#|   Residuals from the nonlinear fuel economy model plotted against
+#|   vehicle weight.
 args <- list(formula = y ~ k * e ^ x,
              start = list(k = 1, e = 2))
 ggplot(mtcars, aes(wt, mpg)) +
@@ -1632,6 +1883,9 @@ ggplot(mtcars, aes(wt, mpg)) +
 **Note:** The tidiers for mixed models have moved to package 'broom.mixed'!
 
 ```{r, eval=(eval_nlme && eval_broom_mixed)}
+#| fig.alt: >-
+#|   Orange tree circumference rises with age. Each tree is distinguished
+#|   by color and has a fitted logistic growth curve.
 args <- list(model = y ~ SSlogis(x, Asym, xmid, scal),
              fixed = Asym + xmid + scal ~1,
              random = Asym ~1 | group,
@@ -1658,6 +1912,9 @@ old.options <- options(ggpmisc.stat.vars.message = "nicknames")
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplot of simulated data with a fitted cubic, confidence band,
+#|   and an R-squared annotation.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -1704,6 +1961,9 @@ In addition package 'gginnards' exports `gginnards::geom_debug_group()` that pri
 `gginnards::geom_debug_group()` uses by default `head()` to echo to the R console the data it receives as input. It ignores the aesthetic mappings so it can be used with any statistics or directly as a layer function. However, unrecognised aesthetics can trigger warnings during plot rendering. These warnings can be ignored in most cases.
 
 ```{r, eval=(eval_broom && eval_gginnards)}
+#| fig.alt: >-
+#|   Scatterplot with a cubic fit and confidence band. The model-summary
+#|   values used by the debug layer appear in the console output.
 # formula <- y ~ poly(x, 3, raw = TRUE)
 # broom::augment does not handle poly() correctly!
 formula <- y ~ x + I(x^2) + I(x^3)
@@ -1724,6 +1984,9 @@ ggplot(my.data, aes(x, y.poly)) +
 In the case of `stat_fit_tb()` the computed variables returned include a list column containing embedded data frames. In this case, function `str()` is more informative than `head()`, so we can pass it as argument overriding the default.
 
 ```{r, eval=(eval_broom && eval_gginnards)}
+#| fig.alt: >-
+#|   Scatterplot with a cubic fit and confidence band. The debug layer
+#|   reports the coefficient table structure in the console output.
 formula <- y ~ x + I(x^2) + I(x^3)
 ggplot(my.data, aes(x, y.poly)) +
   geom_point() +
@@ -1776,6 +2039,10 @@ By default `scale_x_logFC()` and `scale_y_logFC()` expect the logFC data log2-tr
 Scales `scale_y_Pvalue()` and `scale_x_Pvalue()` have suitable defaults for name and labels, while `scale_colour_outcome()` provides suitable defaults for the colours mapped to the outcomes. To change the labels and title of the `key` or `guide` pass suitable arguments to parameters `name` and `labels` of these scales. These x and y scales by default *squish* off-limits (out-of-bounds) observations towards the limits.
 
 ```{r}
+#| fig.alt: >-
+#|   Volcano plot of transcript fold changes and p-values. Three colors
+#|   distinguish outcomes, and labels count transcripts with significant
+#|   changes.
 ggplot(volcano_example.df, 
        aes(logFC, PValue, colour = outcome2factor(outcome))) +
   geom_point() +
@@ -1788,6 +2055,10 @@ ggplot(volcano_example.df,
 By default `outcome2factor()` creates a factor with three levels as in the example above, but this default can be overridden as shown below. A scale with base-two logarithms as tick labels for log FC is also used.
 
 ```{r}
+#| fig.alt: >-
+#|   Volcano plot with base-two fold-change tick labels. Color separates
+#|   transcripts with and without differential expression, and labels give
+#|   counts on each side.
 ggplot(volcano_example.df, 
        aes(logFC, PValue, colour = outcome2factor(outcome, n.levels = 2))) +
   geom_point() +
@@ -1810,6 +2081,10 @@ head(quadrant_example.df)
 In this plot we do not include those genes whose change in transcript abundance is uncertain under both x and y conditions.
 
 ```{r}
+#| fig.alt: >-
+#|   Transcript fold changes in two comparisons. Point outlines and fills
+#|   mark the two outcomes, and dotted zero lines divide the plot into
+#|   quadrants with counts.
   ggplot(subset(quadrant_example.df, 
                 xy_outcomes2factor(outcome.x, outcome.y) != "none"),
          aes(logFC.x, logFC.y, 
@@ -1860,6 +2135,10 @@ all_quadrant_lines <- function(...) {
 And use these functions to build the final plot, in this case including all genes.
 
 ```{r}
+#| fig.alt: >-
+#|   Four panels separate transcripts by significance in both comparisons,
+#|   either comparison alone, or neither. Dotted dividers and counts follow
+#|   each panel's grouping.
 quadrant_example.df %>%
   mutate(.,
          outcome.x.fct = outcome2factor(outcome.x),

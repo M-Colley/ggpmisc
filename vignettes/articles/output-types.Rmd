@@ -112,6 +112,10 @@ update_geom_defaults(
 The simplest labels are encoded as plain text, i.e., without any markup. To force this type of output we pass `output.type = "text"` in the call and a suitable geom (`parse = FALSE` is automatically set as default for this type of output).
 
 ```{r}
+#| fig.alt: >-
+#|   Simulated observations and a rising cubic regression curve. The
+#|   equation and adjusted R squared appear as plain text, with powers
+#|   indicated by carets.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -129,6 +133,10 @@ The default is to generate R plotmath expressions for  `geom_text()`, `geom_labe
 The default is `geom = "text_npc"`. If the location is modified using numerical values, these should be in the range $0\ldots 1$ giving the location relative to the plotting area.
 
 ```{r}
+#| fig.alt: >-
+#|   Simulated observations and a rising cubic curve. The plotmath label
+#|   places the fitted equation and adjusted R squared together near the
+#|   upper left.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -141,6 +149,10 @@ ggplot(my.data, aes(x, y)) +
 With `geom = "text"` the label text and default location are the same, but if the location is modified using numerical values, these should be expressed in data units.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit with observations and a confidence band. The
+#|   equation and adjusted R squared use plotmath in a text layer
+#|   positioned in data units.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -156,6 +168,10 @@ ggplot(my.data, aes(x, y)) +
 In the last few years Markdown has become rather well supported in R plotting. Markdown lacks native standardised markup for subscripts and superscripts. This is problematic for equations. In 'ggpp', in calls with `output.type = "markdown"` super- and sub scripts are encoded using HTML (`<sub> and <sup>`), which several dialects of Markdown recognise. This is the case for `geom_richtext()` from package 'ggtext'. The output type switch is automatic for `geom = "richtext"`.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit over simulated points. The rich-text label uses
+#|   formatted subscripts and exponents for the equation and adjusted R
+#|   squared.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -169,6 +185,10 @@ ggplot(my.data, aes(x, y)) +
 Package 'marquee' does not support the use of HTML tags, and instead pre-defines special _spans_ for subscripts and superscripts. It does not recognize either the HTML named character entities (e.g., `&times;`). It interprets underscore fences not as italic but instead as underline.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit over simulated points. The marquee text layer
+#|   formats the fitted equation and adjusted R squared along the top of
+#|   the plot.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -184,6 +204,10 @@ ggplot(my.data, aes(x, y)) +
 $\LaTeX$ provides the best typesetting, but is rather slow. Slowness is noticeable when many plots need to be created in a document. Using defaults we produce, in this example, three equations in inline math mode, connected with normal text passed as `sep = ", "` in the call.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic regression curve with simulated observations. Inline
+#|   LaTeX typesets the equation and adjusted R squared together on one
+#|   line.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -196,6 +220,9 @@ ggplot(my.data, aes(x, y)) +
 The display maths mode of $\LaTeX$ is intented to be used for equations displayed on there own rather than within within a flowing text paragraph. The typesetting differs in that diplayed equations expand more in the vertical direction, specially fractions, sum and square root symbols. For fitted polynomial equations this difference is subtle, with sub- and superscript text slightly larger. In display maths mode each equation is typeset on a separate line with line height depending on the vertical size of the equation.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic curve fitted to simulated observations. The LaTeX
+#|   equation and adjusted R squared occupy separate display-math lines.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -209,6 +236,9 @@ ggplot(my.data, aes(x, y)) +
 To produce a single display-mode maths equation from multiple labels, we set `output.type = "latex"`. This returns the math-mode-formatted equation without enabling math-mode. In a call to `f_use_label()` the math-formatted labels are combined and enclosed in `$$`, enabling math-mode only once, so that the whole label is typeset as a single $\LaTeX$ equation.
 
 ```{r}
+#| fig.alt: >-
+#|   The fitted cubic rises through simulated observations. A single LaTeX
+#|   display line joins its equation and adjusted R squared.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -222,6 +252,9 @@ ggplot(my.data, aes(x, y)) +
 The same result can be also achieved using `aes()`, `after_stat()` and `paste()` (shown here) or `sprintf()` (not shown).
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit with a confidence band. One display-math label
+#|   places the equation and adjusted R squared side by side.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -240,6 +273,9 @@ ggplot(my.data, aes(x, y)) +
 Finally `output.type = "numeric"` does not return `character` strings for labels, it only returns numeric values that the user can convert into custom labels within a call to `aes()`.
 
 ```{r}
+#| fig.alt: >-
+#|   Simulated observations follow a rising cubic fit. The custom LaTeX
+#|   annotation reports R squared as a whole-number percentage.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -258,6 +294,9 @@ Explanation for `\\%%`: to get a % sign in $\LaTeX$ the scape `\%` is used, beca
 Package 'ggpmisc' does also export the label formatting functions used in the statistics. Using them directly can allow some additional control of the typesetting.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit with a custom LaTeX label that reports R squared as
+#|   a percentage and emphasizes the word polynomial in blue.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -281,6 +320,9 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   A rising cubic fit with a marquee annotation that reports R squared as
+#|   a percentage and colors the word polynomial blue.
 my.formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +

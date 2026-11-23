@@ -1,5 +1,5 @@
 
-# ggpmisc <img src="man/figures/logo.png" align="right" width="150" />
+# ggpmisc <img src="man/figures/logo.png" alt="" align="right" width="150" />
 
 ## Miscellaneous Extensions to ‘ggplot2’
 
@@ -164,8 +164,8 @@ ggplot(mpg, aes(factor(cyl), cty)) +
 
 <figure>
 <img src="man/figures/README-readme-03a-1.png"
-alt="Figure 1. Boxplots with outcome from paiwise contrasts using Tukey’s HSD (honestly significant difference) as criterion with \alpha = 0.05." />
-<figcaption aria-hidden="true"><strong>Figure 1.</strong> Boxplots with
+alt="City fuel-economy boxplots by cylinder count. Four- and five-cylinder cars share a Tukey group. Six- and eight-cylinder cars form separate groups with progressively lower medians." />
+<figcaption><strong>Figure 1.</strong> Boxplots with
 outcome from paiwise contrasts using Tukey’s HSD (honestly significant
 difference) as criterion with <span
 class="math inline"><em>α</em> = 0.05</span>.</figcaption>
@@ -185,8 +185,8 @@ ggplot(mpg, aes(factor(cyl), cty)) +
 
 <figure>
 <img src="man/figures/README-readme-03b-1.png"
-alt="Figure 2. Boxplots with outcome from paiwise Dunnet contrasts using Holms’ P-adjustment. The adjusted P-values are shown for each pairwise contrast. An ANOVA is first fitted and subsequently its output is used for pairwise contrasts within the stat. Labels are formatted automatically." />
-<figcaption aria-hidden="true"><strong>Figure 2.</strong> Boxplots with
+alt="City fuel-economy boxplots with four-cylinder cars as the reference. The Holm-adjusted P value is 0.691 for five cylinders and below 0.001 for both six and eight cylinders." />
+<figcaption><strong>Figure 2.</strong> Boxplots with
 outcome from paiwise Dunnet contrasts using Holms’
 <em>P</em>-adjustment. The adjusted <em>P</em>-values are shown for each
 pairwise contrast. An ANOVA is first fitted and subsequently its output
@@ -211,8 +211,8 @@ ggplot(cars, aes(speed, dist)) +
 
 <figure>
 <img src="man/figures/README-readme-04-1.png"
-alt="Figure 3. Scatter plot of obsevations with a second degree polynomial fitted by OLS. Fitted model line with 95% confidence band is shown. Deviations for each observation are highlighted as red segments. Fitted model equation, R^2 and P-value are shown as annotations. Model fitted within stats with labels generated automatically." />
-<figcaption aria-hidden="true"><strong>Figure 3.</strong> Scatter plot
+alt="Stopping distance rises with speed. The least-squares quadratic has a shaded confidence band and vertical residual segments. The label reports an adjusted R squared of 0.65." />
+<figcaption><strong>Figure 3.</strong> Scatter plot
 of obsevations with a second degree polynomial <strong>fitted by
 OLS</strong>. Fitted model line with 95% confidence band is shown.
 Deviations for each observation are highlighted as red segments. Fitted
@@ -247,8 +247,8 @@ ggplot(cars, aes(speed, dist)) +
 
 <figure>
 <img src="man/figures/README-readme-05-1.png"
-alt="Figure 4. The same base plot as in Figure 3, but annotated with an inset ANOVA table for the fitted model. Model fitted within stats with table generated automatically. Some column and row headings replaced by user-provided character strings, some of them parsed as plotmath expressions." />
-<figcaption aria-hidden="true"><strong>Figure 4.</strong> The same base
+alt="Stopping distance rises along a fitted quadratic curve. The inset ANOVA table gives P below 0.001 for speed and P of 0.136 for squared speed." />
+<figcaption><strong>Figure 4.</strong> The same base
 plot as in Figure 3, but annotated with an inset ANOVA table for the
 fitted model. Model fitted within <em>stats</em> with table generated
 automatically. Some column and row headings replaced by user-provided
@@ -270,8 +270,8 @@ ggplot(cars, aes(speed, dist)) +
 
 <figure>
 <img src="man/figures/README-readme-04b-1.png"
-alt="Figure 5. Same scatter plot of obsevations as in Figures 3 and 4, but with a the second degree polynomial fitted by quantile regression. Fitted model line with 95% confidence band shown. Fitted model equation shown, \rho and the number of observations shown as annotations. Model fitted within stats with labels generated automatically." />
-<figcaption aria-hidden="true"><strong>Figure 5.</strong> Same scatter
+alt="Stopping distance rises along the median regression curve. The confidence band widens at the highest speeds. The label gives the fitted quadratic and a sample size of 50." />
+<figcaption><strong>Figure 5.</strong> Same scatter
 plot of obsevations as in Figures 3 and 4, but with a the second degree
 polynomial <strong>fitted by quantile regression</strong>. Fitted model
 line with 95% confidence band shown. Fitted model equation shown, <span
@@ -293,8 +293,8 @@ ggplot(cars, aes(speed, dist)) +
 
 <figure>
 <img src="man/figures/README-readme-04c-1.png"
-alt="Figure 6. The same scatter plot of obsevations as in Figures 3 to 5 but with three second degree polynomials fitted by quantile regression, for the median and the quartiles. The line shows the model fit for the median line, and the band delimits the quartiles. The three fitted model equations are shown as annotations. Model fitted within stats with labels generated automatically." />
-<figcaption aria-hidden="true"><strong>Figure 6.</strong> The same
+alt="Stopping distance plotted against speed with a rising median curve. A shaded band spans the fitted lower and upper quartiles. The plot lists all three quadratic equations." />
+<figcaption><strong>Figure 6.</strong> The same
 scatter plot of obsevations as in Figures 3 to 5 but with three second
 degree polynomials <strong>fitted by quantile regression</strong>, for
 the median and the quartiles. The line shows the model fit for the
@@ -325,8 +325,8 @@ ggplot(quadrant_example.df, aes(logFC.x, logFC.y)) +
 
 <figure>
 <img src="man/figures/README-unnamed-chunk-1-1.png"
-alt="Figure 7. A quadrant plot as used to compare gene expression under two conditions or in two genotypes. A fraction, 2% in this case, of all genes are labelled, with those in the least dense regions of the scatter plot selected automatically. The manually set bandwidth, h = 3 in this case, has a large effect on which observations are highlighted and labelled." />
-<figcaption aria-hidden="true"><strong>Figure 7.</strong> A quadrant
+alt="Gene-expression fold changes under two conditions cluster near one. Each quadrant shows a count. Selected points in sparse regions carry gene names." />
+<figcaption><strong>Figure 7.</strong> A quadrant
 plot as used to compare gene expression under two conditions or in two
 genotypes. A fraction, 2% in this case, of all genes are labelled, with
 those in the least dense regions of the scatter plot selected
@@ -351,8 +351,8 @@ ggplot(lynx, as.numeric = FALSE) + geom_line() +
 
 <figure>
 <img src="man/figures/README-readme-03-1.png"
-alt="Figure 8. Plot of the lynx time series. The time series was converted on-the-fly into a data frame and x and y mappings set automatically. Automation relies on ggplot() being a generic function exported by package ‘ggplot2’ and the definition of method specializations in ‘ggpp’. Peaks are highlited and annotated with the year extracted and formatted by the stat." />
-<figcaption aria-hidden="true"><strong>Figure 8.</strong> Plot of the
+alt="Annual lynx counts rise and fall in repeated cycles. Points and year labels mark local peaks. The largest labelled peak is in 1904." />
+<figcaption><strong>Figure 8.</strong> Plot of the
 <code>lynx</code> time series. The time series was converted on-the-fly
 into a data frame and <em>x</em> and <em>y</em> mappings set
 automatically. Automation relies on <code>ggplot()</code> being a

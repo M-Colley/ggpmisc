@@ -110,6 +110,10 @@ equation is formualted as the sum of the distributions, meanwhile lines
 for the components and their sums are plotted.
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   A density histogram of Old Faithful waiting times has two peaks.
+#|   Coloured curves show the two fitted Normal components and their sum,
+#|   with the mixture equation above them.
 ggplot(faithful, aes(x = waiting)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(aes(colour = after_stat(component),
@@ -127,6 +131,10 @@ members plus their sum. Below, only the members are plotted and their
 individual equations.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A two-peaked histogram of Old Faithful waiting times has a separate
+#|   coloured Normal curve over each peak. Both component equations are
+#|   shown.
 ggplot(faithful, aes(x = waiting)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(aes(colour = after_stat(component),
@@ -142,6 +150,10 @@ ggplot(faithful, aes(x = waiting)) +
 Below, only the sum of the members is plotted.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A black fitted density curve follows both peaks in the histogram of
+#|   Old Faithful waiting times. The label gives the equation for the sum
+#|   of two Normal components.
 ggplot(faithful, aes(x = waiting)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(geom = "area", linewidth = 1, alpha = 0.25,
@@ -156,6 +168,10 @@ bootstrap. SE is shown in the equation between parantheses following each
 parameter estimate.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A black fitted mixture curve follows both peaks in the Old Faithful
+#|   histogram. Parentheses in the mixture equation give bootstrap standard
+#|   errors for the parameter estimates.
 ggplot(faithful, aes(x = waiting)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(geom = "area", linewidth = 1, alpha = 0.25,
@@ -174,6 +190,10 @@ clear that the fit is not satisfactory. _This highlights that it is always
 good to plot a histogram in the background of a fitted Normal mixture._
 
 ```{r, warning=FALSE, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A single broad Normal curve peaks between the two peaks in the Old
+#|   Faithful waiting-time histogram. The label gives its parameter
+#|   estimates and standard errors.
 ggplot(faithful, aes(x = waiting)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(aes(colour = after_stat(component),
@@ -191,6 +211,10 @@ as some of the apparent minor peaks contain very few observations. Anyway, with
 components.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A histogram of galaxy speeds is overlaid with coloured curves for a
+#|   three-component Normal mixture and its sum. Labels give the fitted
+#|   equation.
 ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_line(aes(colour = after_stat(component),
@@ -209,6 +233,10 @@ Lacking estimates of AIC and BIC the choice is rather subjective unless it is
 supported by scientific theory that suggests a reasonable value for `k`.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   Thin black curves show six fitted Normal components over the galaxy
+#|   speed histogram. A thick curve and shaded area show their sum. The
+#|   component equations appear above.
 ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_distrmix_area(outline.type = "upper", colour = "black",
@@ -223,6 +251,10 @@ ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
 
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   Grey shading divides the fitted six-component density of galaxy speeds
+#|   at its 5th and 95th percentiles. The central interval and two tails
+#|   have distinct fills, and the component equations appear above.
 ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
   stat_distrmix_area(aes(fill = after_stat(quant.splits != 2)),
                      k = 6, fit.seed = 123, quantiles = c(0.05, 0.95),
@@ -240,6 +272,9 @@ estimates are similar to a smoothed histogram, with bandwidth (`bw`) controlling
 the degree of smoothing. In this case no components are identified.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   A smooth black kernel density curve overlays the galaxy speed
+#|   histogram. It traces the main peaks in the distribution as one curve.
 ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
   geom_histogram(aes(y = after_stat(density)), alpha = 0.33, bins = 20) +
   stat_density(bw = 0.5,
@@ -252,6 +287,10 @@ The quantiles can be highlighted similarly as in `stat_distrmix_area()` using
 function `find_quantiles()`.
 
 ```{r, warning=FALSE, results='hide', fig.keep='all'}
+#| fig.alt: >-
+#|   The kernel density of galaxy speeds is shaded in two tones to
+#|   distinguish the central 90 percent of the estimated distribution from
+#|   the two tails.
 ggplot(data.frame(speed = galaxies * 1e-3), aes(x = speed)) +
   stat_density(
     aes(fill =

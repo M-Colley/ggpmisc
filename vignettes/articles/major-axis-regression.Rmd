@@ -98,6 +98,10 @@ When this assumption is not fulfilled the parameter estimates become biased. Whe
 To demonstrate how OLS assumptions about _x_ and _y_ affect a linear regression fit, the next figure shows fits to the same data with formula `y ~ x` and `x ~ y`. Swapping dependent (response) and independent (explanatory) variables.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward scatterplot has two least-squares lines. The blue fit
+#|   predicts y from x, and the steeper red fit predicts x from y. Both
+#|   show equations and fit statistics.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = y ~ x, 
@@ -128,6 +132,9 @@ In the figure above we saw that the ordinary least squares (OLS) linear regressi
 **The prediction bands computed by package 'lmodel2' only consider the standard error of the estimate of the slope. They ignore the error in the estimation of the intercept. Package 'smatr' has the same limitation. In either case bootstraping could be used. _P_-values for the parameters estimates are obtained using permutations.**
 
 ```{r}
+#| fig.alt: >-
+#|   A major axis line passes through a rising point cloud. Its annotation
+#|   gives the equation, R squared, sample size, and P value.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_ma_line() +
@@ -137,6 +144,10 @@ ggplot(my.data, aes(x, y)) +
 In the case of major axis regression while the coefficient estimates in the equation change, they correspond to exactly the same line.
  
 ```{r}
+#| fig.alt: >-
+#|   Two major axis fits overlap in a rising scatterplot. A solid blue fit
+#|   and dashed red fit swap the roles of x and y, and the two equations
+#|   express the same line in opposite directions.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_ma_line(color = "blue") +
@@ -154,6 +165,10 @@ ggplot(my.data, aes(x, y)) +
 The data contain two groups of fake observations and factor `group` as group id. In 'ggplot2' most statistics apply computations by group, not by panel. Grouping as shown bellow is handled by fitting the model once for each group after partitioning the data based on the levels of the grouping variable.
 
 ```{r}
+#| fig.alt: >-
+#|   Groups A and B each have an upward point cloud, a colour-matched major
+#|   axis line, and a label with the equation and fit statistics. Group B
+#|   lies higher.
 ggplot(my.data, aes(x, yg, colour = group)) +
   geom_point() +
   stat_ma_line() +
@@ -170,6 +185,10 @@ variable as above but multiplied by 100. With MA, the lines expected to be paral
 based on how the artificial data was generated, are not.
 
 ```{r}
+#| fig.alt: >-
+#|   The response is multiplied by 100. The two coloured major axis lines
+#|   have different slopes. Their labels report the standardised major axis
+#|   equations for the groups.
 ggplot(my.data, aes(x, yg * 100, colour = group)) +
   geom_point() +
   stat_ma_line(method = "MA") +
@@ -181,6 +200,10 @@ SMA and RMA restore the estimates to that expected. Here SMA is the
 most effective, when using defaults. 
 
 ```{r}
+#| fig.alt: >-
+#|   With the response multiplied by 100, the two coloured standardised
+#|   major axis fits are nearly parallel. Group B's line lies above group
+#|   A's.
 ggplot(my.data, aes(x, yg * 100, colour = group)) +
   geom_point() +
   stat_ma_line(method = "SMA") +
@@ -189,6 +212,10 @@ ggplot(my.data, aes(x, yg * 100, colour = group)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   With the response multiplied by 100, two coloured ranged major axis
+#|   fits use each variable's interval for scaling. Separate labels give
+#|   each group's equation and fit statistics.
 ggplot(my.data, aes(x, yg * 100, colour = group)) +
   geom_point() +
   stat_ma_line(method = "RMA", 
@@ -202,6 +229,10 @@ The generated data also contain variable `y2` with the same mean as `y` with but
 increased random variation ($\sigma_x = 20$ and $\sigma_x = 30$).
 
 ```{r}
+#| fig.alt: >-
+#|   The noisier response shows two upward point clouds with substantial
+#|   overlap. Two coloured major axis lines and their equations describe
+#|   the groups.
 ggplot(my.data, aes(x, yg2, colour = group)) +
   geom_point() +
   stat_ma_line(method = "MA") +
@@ -210,6 +241,10 @@ ggplot(my.data, aes(x, yg2, colour = group)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Two coloured standardised major axis lines pass through the
+#|   overlapping groups for the noisier response. Each group has its own
+#|   equation and fit statistics.
 ggplot(my.data, aes(x, yg2, colour = group)) +
   geom_point() +
   stat_ma_line(method = "SMA") +
@@ -225,6 +260,10 @@ the variation in _y_ explained by _x_, slopes are noticeably biased towards
 being shalower.
 
 ```{r}
+#| fig.alt: >-
+#|   Two coloured ordinary least-squares lines rise through the noisier
+#|   response data. With measurement noise on x, the fitted slopes are
+#|   below the simulated slope of one.
 ggplot(my.data, aes(x, yg2, colour = group)) +
   geom_point() +
   stat_ma_line(method = "OLS") +
@@ -236,6 +275,10 @@ In our data `x0` has no random variation added, and using it we get the
 expected unbiased estimates using OLS.
 
 ```{r}
+#| fig.alt: >-
+#|   The two coloured least-squares lines use the original predictor
+#|   without added noise. The group slopes are close to the simulated slope
+#|   of one.
 ggplot(my.data, aes(x0, yg2, colour = group)) +
   geom_point() +
   stat_ma_line(method = "OLS") +
@@ -267,6 +310,9 @@ them `stat_poly_eq()` and `stat_poly_line()`. Just remember that only model
 formulas for a straight line can be used.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward major axis fit from smatr overlays the points. Its label
+#|   gives the equation, R squared, P value, AIC, and BIC.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(method = "ma") +
@@ -281,6 +327,10 @@ A log10 transformation applied by passing a named argument to the model fit func
 annotations! The equation must be manually altered as done below, for a transformation of the _y_ values.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward major axis line is drawn against y plus 50. The equation
+#|   label refers to log base 10 of y plus 50 because the label's model
+#|   uses that transformed response.
 ggplot(my.data, aes(x = x, y = y + 50)) +
   geom_point() +
   stat_poly_line(method = "ma") +
@@ -293,6 +343,9 @@ ggplot(my.data, aes(x = x, y = y + 50)) +
 As with 'lmodel2', grouping is supported.
 
 ```{r}
+#| fig.alt: >-
+#|   Two coloured point clouds rise together, with group B higher. Each
+#|   group has a separate smatr major axis fit and equation.
 ggplot(my.data, aes(x, yg, colour = group)) +
   geom_point() +
   stat_poly_line(method = smatr::ma) +
@@ -304,6 +357,9 @@ ggplot(my.data, aes(x, yg, colour = group)) +
 Major axis regression through the origin is supported by 'smatr'.
 
 ```{r}
+#| fig.alt: >-
+#|   A rising smatr major axis line passes through the origin. The
+#|   annotated equation has no intercept term.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(method = smatr::ma, formula = y ~ x - 1) +
@@ -316,6 +372,10 @@ ggplot(my.data, aes(x, y)) +
 Standardised major axis regression (SMA) is also supported.
 
 ```{r}
+#| fig.alt: >-
+#|   The scatterplot shows y multiplied by 100 against x. An upward
+#|   standardised major axis line and its equation describe the
+#|   relationship.
 ggplot(my.data, aes(x, y * 100)) +
   geom_point() +
   stat_poly_line(method = smatr::sma) +
@@ -329,6 +389,10 @@ regression line can be set by passing an argument to parameter `level`. Below,
 two different values for `level` result in bands of different widths.
 
 ```{r}
+#| fig.alt: >-
+#|   Two shaded slope confidence bands surround the same rising
+#|   standardised major axis line. The 99 percent band is wider than the 80
+#|   percent band.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(method = "sma", level = 0.99) +
@@ -340,6 +404,9 @@ A robust estimation method can be enabled by passing an argument to be forwarded
 to the the model fit function, in this case `sma()` or `ma()`.
 
 ```{r}
+#| fig.alt: >-
+#|   A robust standardised major axis line passes through the rising point
+#|   cloud. The annotation reports the equation and fit statistics.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(method = "sma", method.args = list(robust = TRUE)) +
@@ -384,6 +451,9 @@ The code below, using a transformed scale for _y_, differs from earlier examples
 replace the left-hand-side of the equation. By default equations are encoded as R's plotmath expressions, requiring a special syntax as described in `help(plotmath)`.
 
 ```{r}
+#| fig.alt: >-
+#|   A major axis line runs through an upward scatterplot on a log-scaled y
+#|   axis. The equation explicitly labels the response as log base 10 of y.
 ggplot(my.data, aes(x, y + 50)) +
   geom_point() +
   stat_ma_line() +
@@ -395,6 +465,10 @@ ggplot(my.data, aes(x, y + 50)) +
 The estimates of slopes for different groups can be different, and usually will be in the case of real data. Here, it is also possible to see that if one applies the transformation in the call to `aes()` then the tick labels show transformed data values and the default equation matches them, but the axis label shows the transformation and the equation does not. They must be made to match by replacing x in the equation or replacing the axis label (as shown below).
 
 ```{r}
+#| fig.alt: >-
+#|   Coloured groups have separate least-squares lines on log-transformed x
+#|   and y values. Each group's annotation gives its equation and fit
+#|   statistics.
 ggplot(my.data, aes(log10(x0), log10(yg2 + 50), colour = group)) +
   geom_point() +
   stat_ma_line(method = "OLS") +
@@ -406,6 +480,10 @@ ggplot(my.data, aes(log10(x0), log10(yg2 + 50), colour = group)) +
 In this last example, the _x_ symbol in the equation is replaced by the transformed _x_.
 
 ```{r}
+#| fig.alt: >-
+#|   The x axis is logarithmic, with tick labels in the original scale. A
+#|   robust standardised major axis line rises through the points. The
+#|   equation expresses the predictor as log base 10 of x.
 ggplot(my.data, aes(x + 50, y)) +
   geom_point() +
   stat_poly_line(method = "sma", method.args = list(robust = TRUE)) +

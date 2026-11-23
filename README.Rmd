@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggpmisc <img src="man/figures/logo.png" align="right" width="150" />
+# ggpmisc <img src="man/figures/logo.png" alt="" align="right" width="150" />
 ## Miscellaneous Extensions to 'ggplot2'
 
 <!-- badges: start -->
@@ -143,6 +143,10 @@ aesthetic and label it with the adjusted _P_-values for multitle comparision
 using "Tukey" contrasts.
 
 ```{r readme-03a}
+#| fig.alt: >-
+#|   City fuel-economy boxplots by cylinder count. Four- and five-cylinder
+#|   cars share a Tukey group. Six- and eight-cylinder cars form separate
+#|   groups with progressively lower medians.
 #| fig.cap: >
 #|   **Figure 1.** Boxplots with outcome from paiwise contrasts using
 #|   Tukey's HSD (honestly significant difference) as criterion with
@@ -157,6 +161,10 @@ ggplot(mpg, aes(factor(cyl), cty)) +
 Using "Dunnet" contrasts and "bars" to annotate individual contrasts with the adjusted _P_-value, here using Holm's method.
 
 ```{r readme-03b}
+#| fig.alt: >-
+#|   City fuel-economy boxplots with four-cylinder cars as the reference.
+#|   The Holm-adjusted P value is 0.691 for five cylinders and below 0.001
+#|   for both six and eight cylinders.
 #| fig.cap: >
 #|   **Figure 2.** Boxplots with outcome from paiwise 
 #|   Dunnet contrasts using Holms' _P_-adjustment. The
@@ -179,6 +187,10 @@ plus the fitted curve, deviations and confidence band. We use `stat_poly_eq()`
 together with `use_label()` to assemble and map the desired annotations.
 
 ```{r readme-04}
+#| fig.alt: >-
+#|   Stopping distance rises with speed. The least-squares quadratic has a
+#|   shaded confidence band and vertical residual segments. The label
+#|   reports an adjusted R squared of 0.65.
 #| fig.cap: >
 #|   **Figure 3.** Scatter plot of obsevations with a second degree 
 #|   polynomial **fitted by OLS**. Fitted model line with 95% confidence band is
@@ -199,6 +211,10 @@ ANOVA table for the model fit. We use `stat_fit_tb()` which can be used to add
 ANOVA or summary tables.
 
 ```{r readme-05}
+#| fig.alt: >-
+#|   Stopping distance rises along a fitted quadratic curve. The inset
+#|   ANOVA table gives P below 0.001 for speed and P of 0.136 for squared
+#|   speed.
 #| fig.cap: >
 #|   **Figure 4.** The same base plot as in Figure 3, but annotated
 #|   with an inset ANOVA table for the fitted model. 
@@ -227,6 +243,10 @@ ggplot(cars, aes(speed, dist)) +
 The same figure as in the third example but this time using quantile regression, median in this example.
 
 ```{r readme-04b, warning=FALSE}
+#| fig.alt: >-
+#|   Stopping distance rises along the median regression curve. The
+#|   confidence band widens at the highest speeds. The label gives the
+#|   fitted quadratic and a sample size of 50.
 #| fig.cap: >
 #|   **Figure 5.** Same scatter plot of obsevations as in Figures 3 and 4, 
 #|   but with a the second degree 
@@ -247,6 +267,10 @@ ggplot(cars, aes(speed, dist)) +
 Band highlighting the region between both quartile regressions and a line for the median regression.
 
 ```{r readme-04c, warning=FALSE}
+#| fig.alt: >-
+#|   Stopping distance plotted against speed with a rising median curve. A
+#|   shaded band spans the fitted lower and upper quartiles. The plot lists
+#|   all three quadratic equations.
 #| fig.cap: >
 #|   **Figure 6.** The same scatter plot of obsevations as in Figures 3 to
 #|   5 but with three second degree polynomials **fitted by quantile 
@@ -267,6 +291,10 @@ A quadrant plot with counts and labels, using `geom_text_repel()` from package
 'ggrepel'.
 
 ```{r}
+#| fig.alt: >-
+#|   Gene-expression fold changes under two conditions cluster near one.
+#|   Each quadrant shows a count. Selected points in sparse regions carry
+#|   gene names.
 #| fig.cap: >
 #|   **Figure 7.** A quadrant plot as used to compare gene expression
 #|   under two conditions or in two genotypes. A fraction, 2% in this case,
@@ -297,6 +325,9 @@ and `y` aesthetics automatically. We also highlight and label the peaks
 using `stat_peaks()`.
 
 ```{r readme-03}
+#| fig.alt: >-
+#|   Annual lynx counts rise and fall in repeated cycles. Points and year
+#|   labels mark local peaks. The largest labelled peak is in 1904.
 #| fig.cap: >
 #|   **Figure 8.** Plot of the `lynx` time series. The time series was converted
 #|   on-the-fly into a data frame and _x_ and _y_ mappings set automatically.

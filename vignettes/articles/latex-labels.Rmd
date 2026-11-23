@@ -133,6 +133,10 @@ my.data <- data.frame(x = x,
 We start by checking that 'xdvir' is working as expected. One thing to keep in mind is the need to escape especial characters, here using `\\` instead of `\`. This is necessary as the backslash has a especial "meaning" in R's character strings.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward scatterplot shows a bold abc and a square root as a LaTeX
+#|   annotation. The title contains red text, and the subtitle illustrates
+#|   a cube root, italic text, and bold text.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   annotate(geom = "latex",
@@ -147,6 +151,9 @@ ggplot(my.data, aes(x, y)) +
 For the first example we use defaults to add an annotation with Pearson's correlation coefficient.
 
 ```{r}
+#| fig.alt: >-
+#|   An upward scatterplot of simulated x and y has a LaTeX label at the
+#|   upper left giving Pearson's correlation coefficient.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_correlation(geom = "latex",
@@ -156,6 +163,9 @@ ggplot(my.data, aes(x, y)) +
 Grouping is supported.
 
 ```{r}
+#| fig.alt: >-
+#|   The two coloured groups follow a similar upward trend. Each group has
+#|   a Pearson correlation label in the same colour as its points.
 ggplot(my.data, aes(x, y, color = group)) +
   geom_point() +
   stat_correlation(geom = "latex", 
@@ -165,6 +175,10 @@ ggplot(my.data, aes(x, y, color = group)) +
 We can also compute Spearman's rank correlation. (The symbol used for it is the letter rho to distinguish it from Pearson's correlation for which *R* or *r* are used as symbols.)
 
 ```{r}
+#| fig.alt: >-
+#|   The two groups share one upward scatterplot. A colour-matched label
+#|   gives each group's Spearman rank correlation using the Greek letter
+#|   rho.
 ggplot(my.data, aes(x, y, color = group)) +
   geom_point() +
   stat_correlation(method = "spearman", 
@@ -175,6 +189,10 @@ ggplot(my.data, aes(x, y, color = group)) +
 Statistic `stat_correlation()` generates multiple labels as listed in the tables above. We can combine them freely within a call to `aes()` to customize the annotations, or we can use the convenience function `use_label()` to create the mapping.
 
 ```{r}
+#| fig.alt: >-
+#|   Two point colours distinguish groups A and B in the upward
+#|   scatterplot. Each colour-matched label lists Pearson's correlation, t
+#|   statistic, P value, and sample size.
 ggplot(my.data, aes(x, y, color = group)) +
   geom_point() +
   stat_correlation(mapping =
@@ -186,6 +204,9 @@ ggplot(my.data, aes(x, y, color = group)) +
 Facets are also supported.
 
 ```{r}
+#| fig.alt: >-
+#|   Separate panels for groups A and B show similar upward scatterplots.
+#|   Each panel has its own Pearson correlation label at the upper left.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_correlation(geom = "latex", hjust = 0, vjust = 1) +
@@ -195,6 +216,10 @@ ggplot(my.data, aes(x, y)) +
 Using the numeric values returned it is possible to set other aesthetics on-the-fly.
 
 ```{r}
+#| fig.alt: >-
+#|   Separate panels for groups A and B show similar upward scatterplots.
+#|   A's correlation label is black and B's is red because only B exceeds
+#|   0.955.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_correlation(mapping = 
@@ -226,6 +251,10 @@ my.data <- data.frame(x,
 
 
 ```{r}
+#| fig.alt: >-
+#|   Simulated y values rise more steeply at larger x. A cubic regression
+#|   line follows the curve, and a LaTeX label reports the fit's
+#|   coefficient of determination.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -236,6 +265,9 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   A fitted cubic curve rises across the scatterplot. The LaTeX
+#|   annotation displays the cubic equation.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -247,6 +279,10 @@ ggplot(my.data, aes(x, y)) +
 Mapping to `label` aesthetic created with `use_label()` which is based on `paste()`.  The backslash `"\"` in R `character` strings has to be escaped as `"\\"`, so $\LaTeX$ markup for newline, `\\`, becomes `\\\\`.
 
 ```{r}
+#| fig.alt: >-
+#|   A fitted cubic curve rises across the scatterplot. A two-line LaTeX
+#|   label shows the equation on the first line and adjusted R squared on
+#|   the second.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -260,6 +296,10 @@ ggplot(my.data, aes(x, y)) +
 Mapping to `label` aesthetic created with `f_use_label()` which is based on `sprintf()`. 
 
 ```{r}
+#| fig.alt: >-
+#|   The cubic fit bends upward through the points. Its label has the
+#|   equation on one line and R squared, the F statistic, and the P value
+#|   on the next.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -274,6 +314,9 @@ ggplot(my.data, aes(x, y)) +
 Mapping to `label` aesthetic created with `aes()` together with `paste()`.
 
 ```{r}
+#| fig.alt: >-
+#|   The upward cubic fit is annotated with the equation on the first line
+#|   and R squared, the F statistic, and the P value on the second line.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -291,6 +334,9 @@ ggplot(my.data, aes(x, y)) +
 Replacing the *lhs*, requires $\LaTeX$ encoding, and, as above, escaping `"\"` in R `character` strings as `"\\"`.
 
 ```{r}
+#| fig.alt: >-
+#|   The cubic fit rises through the scatterplot. The label starts with y
+#|   hat to distinguish the fitted response from the observed y values.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -305,6 +351,9 @@ ggplot(my.data, aes(x, y)) +
 Replacing both the *lhs* and the independent variable symbol used on the *rhs*. 
 
 ```{r}
+#| fig.alt: >-
+#|   The upward cubic fit is labelled with h on the left and z as the
+#|   predictor. R squared appears on the line below the equation.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
@@ -318,6 +367,10 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   The scatterplot and quadratic fit show log base 10 of delta plus one
+#|   million against omega. The fitted equation uses the same notation as
+#|   the axes.
 formula <- y ~ poly(x, 2, raw = TRUE)
 ggplot(my.data, aes(x, log10(y + 1e6))) +
   geom_point() +
@@ -333,6 +386,10 @@ ggplot(my.data, aes(x, log10(y + 1e6))) +
 
 
 ```{r}
+#| fig.alt: >-
+#|   Two cubic fits curve upwards through the points. Solid and dashed
+#|   lines distinguish groups A and B, and the stacked equations start with
+#|   bold group letters.
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y2, linetype = group, grp.label = group)) +
   geom_point() +
@@ -345,6 +402,10 @@ ggplot(my.data, aes(x, y2, linetype = group, grp.label = group)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Two rising straight lines cross in the scatterplot. Blue shows least
+#|   squares fitted with y as the response and red with x as the response.
+#|   Each has an equation and R squared label.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(color = "blue") +
@@ -365,6 +426,9 @@ ggplot(my.data, aes(x, y)) +
 ### stat_ma_eq() and stat_ma_line()
 
 ```{r}
+#| fig.alt: >-
+#|   A rising major axis line overlays the curved point cloud. Its label
+#|   gives the equation, R squared, P value, and angle of the fitted line.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_ma_line() +
@@ -377,6 +441,10 @@ ggplot(my.data, aes(x, y)) +
 ### stat_quant_eq()
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   A cubic median curve and grey interquartile band rise across the
+#|   simulated points. The annotation gives the fitted quantile regression
+#|   equations.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = formula, 
@@ -387,6 +455,9 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 ```{r, warning=FALSE}
+#| fig.alt: >-
+#|   A cubic median curve and grey interquartile band rise across the
+#|   simulated points. Stacked equations start with bold quantile labels.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = formula, 
@@ -401,6 +472,10 @@ ggplot(my.data, aes(x, y)) +
 `stat_multcomp()` depends on `geom_text_pairwise()` from package 'ggpp', which does not have a $\LaTeX$-based equivalent yet.
 
 ```{r}
+#| fig.alt: >-
+#|   Boxplots of highway fuel economy by cylinder count have lower medians
+#|   for six and eight cylinders. Bars above the boxes label
+#|   Bonferroni-adjusted pairwise comparisons.
 # position of contrasts' bars (manual)
 ggplot(mpg, aes(factor(cyl), hwy)) +
   geom_boxplot(width = 0.33)  +
@@ -415,6 +490,9 @@ ggplot(mpg, aes(factor(cyl), hwy)) +
 The _label_ helper functions from 'ggpmisc' can be used in calls to `aes()` or elsewhere in user code to generate formated labels from numeric values. By passing `output.type = "latex.eqn"` the generated label is formatted as a $\LaTeX$ equation suitable for `geom_latex()`.
 
 ```{r}
+#| fig.alt: >-
+#|   The curved scatterplot has a LaTeX sample-size annotation with italic
+#|   n and a count of 100 points.
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_panel_counts(geom = "latex",
@@ -428,6 +506,9 @@ ggplot(my.data, aes(x, y)) +
 We can, of course, just format the labels using R's functions.
 
 ```{r}
+#| fig.alt: >-
+#|   Twelve red points follow the upward curve of the simulated data. The
+#|   LaTeX label beside each point gives its x value.
 ggplot(my.data[sample(1:nrow(my.data), 12), ], aes(x, y)) +
   geom_point(colour = "red", size = 0.7) +
   geom_latex(aes(label = sprintf("$ x = %.1f $", x)),
@@ -449,6 +530,9 @@ update_geom_defaults(
 
 
 ```{r}
+#| fig.alt: >-
+#|   The scatterplot curves upward. The Pearson correlation annotation is
+#|   blue, the colour set for LaTeX labels by the plot theme.
 update_theme(geom.latex = element_geom(colour = "blue"))
 
 ggplot(my.data, aes(x, y)) +

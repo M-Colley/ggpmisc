@@ -100,6 +100,11 @@ Package 'MASS' provides function `rlm()` for "Robust Fitting of Linear Models". 
 The first example plot is in the style I recommend for use in reporting as it makes the weights visible, later plots from this same subset of the data are mostly useful in teaching and data exploration.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy declines as engine displacement increases among
+#|   SUVs. The straight line shows the MASS robust fit. Points range from
+#|   red at low fit weights to blue at high weights. An annotation gives
+#|   the equation, sample size and method.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "rlm") +
   stat_poly_eq(use_label("eq", "n", "method"), 
@@ -116,6 +121,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Fitted values and deviations highlighted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with the MASS
+#|   robust fit. Crosses mark fitted values, segments connect them to the
+#|   observations and point color shows each observation's fit weight.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "rlm") +
   stat_fit_fitted(method = "rlm", shape = "cross") +
@@ -131,6 +140,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Residuals plotted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Response residuals from the MASS robust fit of SUV highway fuel
+#|   economy versus engine displacement. A dotted horizontal line marks
+#|   zero. Point colors show the weights used in the fit.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "rlm",
@@ -144,6 +157,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Pearson residuals from the MASS robust fit of SUV highway fuel economy
+#|   versus engine displacement. A dotted line marks zero and point colors
+#|   show fit weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "rlm",
@@ -159,6 +176,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 We are not constrained to a first degree polynomial. This plot follows the recommended style for reporting.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with a black
+#|   robust quadratic curve. Points are colored by fit weight. The
+#|   equation, sample size and method appear above the data.
 my.formula <- y ~ poly(x, 2, raw = TRUE)
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_eq(use_label("eq", "n", "method"), 
@@ -180,6 +201,11 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 We can the same approach with the whole data set using facets.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplots of highway fuel economy versus engine displacement, one
+#|   panel per vehicle class. Each panel has a MASS robust fit and its
+#|   equation and sample size. Red points have lower fit weights than blue
+#|   points.
 #| fig.asp: 1.25
 ggplot(mpg, aes(displ, hwy)) +
   stat_poly_line(method = "rlm") +
@@ -209,6 +235,10 @@ Package 'robustbase' provides function `lmrob()` for "MM-type Estimators for Lin
 A few examples are given, as the only change to the code from the previous section is in the argument passed to parameter `method`. The first plot is what I consider suitable for use in reports. Using defaults, `lmrob` seems to be more aggresive against "outliers" than `rlm`, at least for these data.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with a straight
+#|   line fitted by lmrob. Red points received lower fit weights than blue
+#|   points. The plot labels the equation, sample size and method.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "lmrob") +
   stat_poly_eq(use_label("eq", "n", "method"), 
@@ -225,6 +255,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Fitted values and deviations highlighted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with the lmrob
+#|   fit. Crosses mark fitted values and segments connect them to the
+#|   corresponding observations. Point color shows fit weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "lmrob") +
   stat_fit_fitted(method = "lmrob", shape = "cross") +
@@ -241,6 +275,10 @@ Residuals plotted.
 
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV fuel economy residuals from lmrob versus engine displacement. Red
+#|   points have lower fit weights than blue points. A dotted horizontal
+#|   line marks zero.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lmrob",
@@ -270,6 +308,11 @@ Package 'MASS' provides function `lqs()` for "Resistant Regression". The recomme
 A few examples are given, as the only change to the code from the previous sections is in the argument passed to parameter `method`. The first plot is what I consider suitable for use in reports.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with a
+#|   least-trimmed-squares line. Red points were excluded from the fit and
+#|   blue points were used. The equation, sample size and method appear
+#|   above the data.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "lts") +
   stat_poly_eq(use_label("eq", "n", "method"), 
@@ -287,6 +330,11 @@ Fitted values and deviations highlighted.
 
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Least-trimmed-squares fit of SUV highway fuel economy versus engine
+#|   displacement. Crosses mark fitted values, segments show observed
+#|   deviations and point colors indicate which observations were used to
+#|   fit the line.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "lts") +
   stat_fit_fitted(method = "lts", shape = "cross") +
@@ -302,6 +350,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Residuals plotted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Least-trimmed-squares residuals for SUV highway fuel economy versus
+#|   engine displacement. The dotted line marks zero and point colors
+#|   distinguish observations used in the fit from excluded observations.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lts",
@@ -332,6 +384,10 @@ library(nlme)
 In 'ggpmisc' (>= 0.6.2) function `gls()` from package 'nlme' is supported natively by functions `stat_poly_line()` and `stat_poly_eq()`. In this example, using a variance covariate. _Currently, support is limited to the prediction line, and labels._
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement with a straight
+#|   line from generalized least squares. The model uses a power variance
+#|   function. The plot labels the fitted equation, sample size and method.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
    geom_point() +
    stat_poly_line(method = "gls", 
@@ -345,6 +401,11 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Fitted values and deviations highlighted. Posterior weights, in this case fitted using a power of variance covariate are not values in the range between 0 and 1 as in robust and resistant regression approaches. Thus, their interpretation is different. In this example instead of mapping the weights to the colour of points, we map them to the segments.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Generalized least-squares fit of SUV highway fuel economy versus
+#|   engine displacement. Black points show observations, crosses show
+#|   fitted values and colored segments connect them. The colors show
+#|   fitted variance weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   stat_poly_line(method = "gls", 
                  method.args = list(weights = nlme::varPower())) +
@@ -361,6 +422,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Residuals plotted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Generalized least-squares response residuals for SUV highway fuel
+#|   economy versus engine displacement. A dotted line marks zero and point
+#|   colors show fitted variance weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "gls", 
@@ -371,6 +436,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Generalized least-squares Pearson residuals for SUV highway fuel
+#|   economy versus engine displacement. A dotted line marks zero and point
+#|   colors show fitted variance weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "gls", 
@@ -381,6 +450,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Generalized least-squares normalized residuals for SUV highway fuel
+#|   economy versus engine displacement. A dotted line marks zero and point
+#|   colors show fitted variance weights.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "gls", 
@@ -411,6 +484,10 @@ library(lspline)
 Package 'lspline' provides base functions that can be used to fit linear splines. In this first example function `lm()` is used. Spline base functions are included as terms in the model formula. The functions from package 'lspline' do not fit the change points where the knots are located. Functions, `lspline()`, `qlspline()` amd `elspline()` can be used directly in the model formula passed to `stat_poly_line()`. They can be used also with `stat_poly_eq()` but no equation label is returned. Thus, it is necessary to construct in the call to `aes()` the equations for the different segments. Other character labels are generated normally.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with two least-squares
+#|   line segments joined at 4.1 liters. Annotations give the equation on
+#|   each side of the knot and the R-squared, p-value and AIC.
 cp <- 4.1 # a guess
 my.formula <- y ~ lspline::lspline(x, knots = cp)
 
@@ -439,6 +516,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting fitted values and observations.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a least-squares
+#|   linear spline. Crosses mark the fitted value at each observed
+#|   displacement. The two line segments meet at 4.1 liters.
 ggplot(mpg, aes(displ, hwy)) +
   stat_poly_line(method = "lm", 
                  formula = my.formula) +
@@ -450,6 +531,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Adding deviations.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a linear spline
+#|   joined at 4.1 liters. Segments connect each observation to the fitted
+#|   value marked by a cross.
 ggplot(mpg, aes(displ, hwy)) +
   stat_poly_line(method = "lm", 
                  formula = my.formula) +
@@ -464,6 +549,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from a least-squares linear spline with a knot at 4.1
+#|   liters, plotted against engine displacement. The dotted horizontal
+#|   line marks zero residual.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lm", 
@@ -474,6 +563,11 @@ ggplot(mpg, aes(displ, hwy)) +
 It is possible to use `rlm()` or `lmrob()` instead of `lm()`, i.e., a robust approach instead of OLS. Here we use `method = "lmrob"`, combining the approach from the example of robust regression with the linear spline fitting above.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a robust linear
+#|   spline joined at 4.1 liters. Points are colored by fit weight.
+#|   Annotations give the two segment equations, R-squared, sample size and
+#|   method.
 cp <- 4.1
 my.formula <- y ~ lspline(x, knots = cp)
 
@@ -510,6 +604,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from a robust linear spline fitted with lmrob, plotted
+#|   against engine displacement. A dotted line marks zero and point colors
+#|   show fit weights.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lmrob", 
@@ -555,6 +653,10 @@ The model `formula = y ~ seg(x, npsi = 1)` requests a fit with a single change
 point, which being the default is equivalent to `formula = y ~ seg(x)`.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with two fitted line
+#|   segments. The plot gives the estimated breakpoint and its standard
+#|   error, the equation on each side and summary statistics.
 my.formula <- y ~ seg(x, npsi = 1)
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -590,6 +692,11 @@ parameters are returned, the code to assemble the equation needs to be
 rewritten.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a line that
+#|   becomes horizontal at the fitted breakpoint. Annotations give the
+#|   breakpoint and its standard error, the two equations and summary
+#|   statistics.
 my.formula <- y ~ seg(x, npsi = 1, est = c(1, 0))
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -624,6 +731,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Highlighting fitted values.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a line that
+#|   becomes horizontal at the fitted breakpoint. Crosses mark the fitted
+#|   values at observed displacements.
 ggplot(mpg, aes(displ, hwy)) +
   stat_poly_line(method = "segreg", 
                  formula = my.formula) +
@@ -636,6 +747,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plot of residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from a segmented fuel economy model with a flat right-hand
+#|   segment, plotted against engine displacement. The dotted line marks
+#|   zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "segreg", 
@@ -665,6 +780,10 @@ equation, while other formatted character labels are generated as for
 polynomials.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a least-squares
+#|   natural cubic spline and an interior knot at 4.1 liters. The plot
+#|   annotates R-squared, p-value and AIC.
 cp <- 4.1 # a guess
 my.formula <- y ~ splines::ns(x, knots = cp)
 
@@ -681,6 +800,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting fitted values and observations.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a least-squares
+#|   natural cubic spline. Crosses mark the fitted values on the curve at
+#|   the observed displacements.
 ggplot(mpg, aes(displ, hwy)) +
   stat_poly_line(method = "lm", 
                       formula = my.formula) +
@@ -692,6 +815,9 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from the least-squares natural cubic spline, plotted against
+#|   engine displacement. A dotted horizontal line marks zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lm", 
@@ -703,6 +829,10 @@ It is possible to use `rlm()` or `lmrob()` instead of `lm()`, for resistant and
 robust approaches to the fitting of splines.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a natural cubic
+#|   spline fitted by lmrob. Point colors show the robust fit weights. The
+#|   plot gives R-squared, sample size and the method.
 cp <- 4.1
 my.formula <- y ~ splines::ns(x, knots = cp)
 
@@ -726,6 +856,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from a natural cubic spline fitted by MASS robust
+#|   regression, plotted against engine displacement. Point colors show fit
+#|   weights and the dotted line marks zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "rlm", 
@@ -762,6 +896,10 @@ equation, while other formatted character labels are generated as for
 polynomials.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a least-squares
+#|   B-spline and an internal knot at 4.1 liters. The plot annotates
+#|   R-squared, p-value and AIC.
 cp <- 4.1 # a guess
 my.formula <- y ~ splines::bs(x, knots = cp)
 
@@ -779,6 +917,9 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from the least-squares B-spline for highway fuel economy,
+#|   plotted against engine displacement. The dotted line marks zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lm", formula = my.formula) +
@@ -789,6 +930,10 @@ It is possible to use `rlm()` or `lmrob()` instead of `lm()`, for resistant and
 robust approaches to the fitting of splines.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a B-spline fitted
+#|   by lmrob. Point colors show robust fit weights. The plot gives
+#|   R-squared, sample size and the method.
 cp <- 4.1
 my.formula <- y ~ splines::bs(x, knots = cp)
 
@@ -812,6 +957,10 @@ ggplot(mpg, aes(displ, hwy)) +
 Plotting residuals.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from the B-spline fitted by lmrob, plotted against engine
+#|   displacement. Point colors show robust fit weights and the dotted line
+#|   marks zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = "lmrob", 
@@ -852,6 +1001,10 @@ fit_or_not <- function(formula, data, ..., orientation = "x") {
 Instead of using `lm()` as method, we pass our wrapper function `fit_or_not()` as method. As the function returns either an `"lm"` object from the wrapped call to `lm()` or `NA`, the call to the statistics can make use of all other features as needed.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplots of highway fuel economy versus engine displacement, one
+#|   per vehicle class. The two-seater and minivan panels show observations
+#|   alone. Other panels also show a fitted line, equation and R-squared.
 #| fig.asp: 1.25
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -866,6 +1019,10 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Fuel economy residuals versus engine displacement in panels by vehicle
+#|   class. Residuals are shown for classes with more than five distinct
+#|   engine displacements. Dotted lines mark zero.
 #| fig.asp: 1.25
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -919,6 +1076,11 @@ poly_or_mean <- function(formula, data, ...) {
 Function `poly_or_mean()`, just defined, or its name is paased as the argument for `method`.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplots of highway fuel economy versus engine displacement by
+#|   vehicle class. The two-seater and minivan panels show horizontal mean
+#|   lines. The other panels have downward fitted slopes. Each panel labels
+#|   the selected model.
 #| fig.asp: 1.25
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -931,6 +1093,11 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement in a single panel with
+#|   colors for vehicle class. Two-seaters and minivans have horizontal
+#|   mean lines. Other classes have downward fitted slopes. Equations use
+#|   the corresponding class colors.
 #| fig.asp: 1
 
 ggplot(mpg, aes(displ, hwy, color = class)) +
@@ -963,6 +1130,10 @@ best_poly_lm <- function(formula, data, ...) {
 We then use our function `best_poly_lm()` as the method.
 
 ```{r}
+#| fig.alt: >-
+#|   Scatterplots of highway fuel economy versus engine displacement by
+#|   vehicle class. Each panel shows the fit and equation for the
+#|   polynomial degree selected by AIC for that class.
 #| fig.asp: 1.25
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -978,6 +1149,10 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 
 ```{r}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with observations and
+#|   AIC-selected polynomial fits colored by vehicle class. The equations
+#|   and AIC labels use the same class colors.
 #| fig.asp: 1
 
 ggplot(mpg, aes(displ, hwy, color = class)) +
@@ -1062,6 +1237,10 @@ lm2segmented.lm <-
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with two straight
+#|   segments joined at one fitted breakpoint. The line comes from the
+#|   segmented model fitted after ordinary least squares.
 # using defaults, one breakpoint
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
@@ -1069,6 +1248,9 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Residuals from the model with one fitted breakpoint, plotted against
+#|   engine displacement. The dotted horizontal line marks zero.
 ggplot(mpg, aes(displ, hwy)) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   stat_fit_residuals(method = lm2segmented.lm) +
@@ -1076,6 +1258,10 @@ ggplot(mpg, aes(displ, hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with three straight
+#|   segments joined at two fitted breakpoints. The fit starts its search
+#|   at displacements of 3 and 5 liters.
 # requesting two breakpoints with starting values
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
@@ -1087,6 +1273,11 @@ A more complex example with labels, assembled within the call to `aes()`. In add
 `stat_poly_eq()` in 'ggpmisc' (>= 0.6.3). A label is added with the knot position, and two regression equations, one for each segment of the linear spline.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with fitted line
+#|   segments joined at a breakpoint. The plot labels the breakpoint and
+#|   the two segment equations. A second annotation gives R-squared,
+#|   p-value and AIC.
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
   stat_poly_eq(aes(label =
@@ -1202,6 +1393,11 @@ Here the limitation of 'ggplot2' and 'ggpmisc' in that the fit is recomputed in 
 This is something that can most likely be fixed in 'ggpmisc' by setting the seed of the RNG. To check that work-around is working as expected, we set `sigma.sq.u = 0` effectively using an OLS approach and expecting values nearly identical as with `lm()`.
 
 ```{r, message=FALSE}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement in panels by vehicle
+#|   class. Each panel shows observations, a straight fit and an equation
+#|   with R-squared. The fit assumes zero measurement-error variance in
+#|   engine displacement.
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   stat_poly_line(aes(y = hwy),
@@ -1220,6 +1416,11 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 We do not know the measurement error for the measurement of `displ`, the displacement volume of the engines. For this example we make up a value: `sigma.sq.u = 0.01` expecting estimates different from above and with `lm()`.
  
 ```{r, message=FALSE}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement in panels by vehicle
+#|   class. Each panel shows observations, a straight fit and an equation
+#|   with R-squared. The fit assumes a measurement-error variance of 0.01
+#|   in engine displacement.
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   stat_poly_line(aes(y = hwy),
@@ -1248,6 +1449,10 @@ For these examples I expanded the `x` scale limits, so that they are clearly bro
 The first example, with `limit.to = "none"` produces the same plot as using `fullrange = TRUE`.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement. The downward
+#|   fitted line spans the expanded displacement axis from minus 2 to 10
+#|   liters.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_point() +
   stat_poly_line(limit.to = "none") +
@@ -1257,6 +1462,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 With `limit.to = "y"` the prediction is computed as in the example above, but predicted values aoutside the range of `y` are not passed to the geom, and, thus, not plotted.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement on an expanded
+#|   horizontal axis. The fitted line stops where predicted fuel economy
+#|   leaves the observed fuel economy range.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_point() +
   stat_poly_line(limit.to = "y") +
@@ -1266,6 +1475,10 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 In addition to character strings as described above, `limit.to` also accepts as argument a numeric vector to be used as new data. This makes it possible to obtain a prediction for a range that is neither that of the scale or that of the data. A use case is when an unrestricted range could interfere with a plot annotation.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy versus engine displacement on an axis from 1
+#|   to 8 liters. The fitted line runs from 2 to 7 liters, the limits of
+#|   the supplied prediction grid.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_point() +
   stat_poly_line(limit.to = seq(from = 2, to = 7, length.out = 80)) +
@@ -1275,6 +1488,11 @@ ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
 Although rarely useful when continuous variables are mapped to both `x` and `y`, it is also possible to compute predictions for discrete values of the explanatory variable. In this example the predictions extend past the range of the data, and the range of the limits of the scales are automatically extended for them to fit. Instead of the default `geom = "smooth"`, `geom = "pointrange"` displays the individual predictions. 
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   SUV highway fuel economy observations plotted against engine
+#|   displacement. Blue points and vertical bars show fitted values and
+#|   their 95 percent confidence intervals at each integer displacement
+#|   from 2 to 7 liters.
 ggplot(subset(mpg, class == "suv"), aes(displ, hwy)) +
   geom_point() +
   stat_poly_line(limit.to = 2:7,
@@ -1293,6 +1511,11 @@ Only `eq.label` is affected by transformations in the sense that the _x_ and _y_
 fit polynomials by OLS using `lm()`, the default method.
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a log base 10
+#|   vertical scale. The axis displays original fuel economy values and the
+#|   equation expresses log base 10 fuel economy as a linear function of
+#|   displacement.
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   stat_poly_line() +
@@ -1304,6 +1527,11 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 ```
 
 ```{r, fig.width = 7, fig.height = 5}
+#| fig.alt: >-
+#|   Highway fuel economy versus engine displacement with a log base 10
+#|   horizontal scale. The axis displays original displacement values and
+#|   the fitted curve and equation express fuel economy as a cubic function
+#|   of log base 10 displacement.
 ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() +
   stat_poly_line(formula = y ~ poly(x, 3, raw = TRUE)) +

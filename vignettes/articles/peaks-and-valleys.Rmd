@@ -62,6 +62,10 @@ It can be of interest to locate peaks an valleys not only in time series data, b
 Plot `p.lx0` is used as a base for several different examples. Passing `as.numeric = FALSE` retains the variable extracted from the time series as a datetime object while  with `as.numeric = TRUE` it is converted into `numeric`. In this time series, the extracted time is a variable of class `Date`.
 
 ```{r}
+#| fig.alt: >-
+#|   Line plot with points showing annual lynx skins from 1821 to 1934.
+#|   Sharp crests recur roughly every decade, with deep troughs between
+#|   them.
 p.lx0 <- 
   ggplot(lynx, as.numeric = FALSE) +
   geom_line() +
@@ -80,6 +84,10 @@ By default `stat_peaks()` and `stat_valleys()` use `geom_point()`, which when ad
 Function `stat_peaks()` identifies maxima of `y`.
 
 ```{r}
+#| fig.alt: >-
+#|   Annual lynx skins with red points at the local maxima. The markers
+#|   pick out the crests of the recurring cycles, including peaks of very
+#|   different heights.
 p.lx0 +
   stat_peaks(colour = "red")
 ```
@@ -87,6 +95,9 @@ p.lx0 +
 Similarly, function `stat_valleys()` identifies minima of `y`.
 
 ```{r}
+#| fig.alt: >-
+#|   Annual lynx skins with blue points at the local minima. The markers
+#|   fall in the troughs between recurring cycles.
 p.lx0 +
   stat_valleys(colour = "blue")
 ```
@@ -97,6 +108,10 @@ p.lx0 +
 As in many statistics from package 'ggplot2', these statistics from package 'ggpmisc' support flipping by passing an argument to parameter `orientation`. In this contrived example, years are mapped to `y` and the number of lynx skins to `x`.
 
 ```{r}
+#| fig.alt: >-
+#|   The lynx series is plotted with year on the vertical axis and skin
+#|   counts on the horizontal axis. Red dots mark rightward peaks and blue
+#|   dots mark leftward valleys.
 ggplot(lynx, aes(lynx, time)) +
   geom_line(orientation = "y") +
   geom_point(shape = "circle small") +
@@ -111,6 +126,9 @@ Peaks and valleys are the maximum and minimum value within a moving window. The 
 Passing `span = NULL` in the call results in a search for the global maximum of `y` in a single window encompassing the whole vector of values. (Passing `span = Inf` or any integer larger than the length of the vector results in the same behaviour.)
 
 ```{r}
+#| fig.alt: >-
+#|   The lynx time series has a single red marker at the overall maximum of
+#|   6,991 skins in 1904.
 p.lx0 +
   stat_peaks(colour = "red", span = NULL)
 ```
@@ -118,6 +136,10 @@ p.lx0 +
 The cycle in the `lynx` time series is near 10, so using `span = 9` still detects the same peaks as with `span = 5` except for that for year 1915 as this peak is never the taller than all of its neighbours in the wider moving window. 
 
 ```{r}
+#| fig.alt: >-
+#|   Lynx peaks marked in red using a nine-observation window. The larger
+#|   window keeps most cycle crests and drops a smaller peak close to a
+#|   taller one.
 p.lx0 +
   stat_peaks(colour = "red", span = 9)
 ```
@@ -125,6 +147,9 @@ p.lx0 +
 With `span = 51` `stat_peaks()` find only the two tallest peaks.
 
 ```{r}
+#| fig.alt: >-
+#|   Only two high crests of the lynx series remain marked in red when
+#|   peaks are searched over a 51-observation window.
 p.lx0 +
   stat_peaks(colour = "red", span = 51)
 ```
@@ -136,6 +161,9 @@ Arguments passed to `span` worked well with the very regular cycles and lack of 
 One approach to differentiate between major and minor peaks is to require a minimum height for them. The most direct approach is to pass an argument to `global.threshold` expressed in data units. We indicate this with `I()` which sets class `"AsIs"` in the numeric value passed as argument.
 
 ```{r}
+#| fig.alt: >-
+#|   Lynx series with red markers at local peaks above 4,300 skins. Lower
+#|   crests remain visible in the line without red markers.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = I(4300))
 ```
@@ -143,6 +171,10 @@ p.lx0 +
 The same plot as above, annotated with the threshold value passed as argument to `global.threshold` shown together with the range of the data.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   The highest lynx peaks are marked in red above a dashed line at 4,300
+#|   skins. The red right-hand axis labels the threshold and the endpoints
+#|   of the observed range.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = I(4300)) +
   geom_hline(yintercept = 4300, linetype = "dashed", colour = "red") +
@@ -158,6 +190,9 @@ p.lx0 +
 If we simply pass an unprotected `numeric` value in the range $0\ldots1$ this value is taken as relative to the data range. 
 
 ```{r}
+#| fig.alt: >-
+#|   Red dots mark local lynx peaks above a cutoff 66 percent of the way
+#|   from the minimum to the maximum annual count.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = 0.66)
 ```
@@ -165,6 +200,9 @@ p.lx0 +
 The same plot as above, annotated with the threshold value passed as argument to `global.threshold` shown together with the range of relative values accepted.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   A dashed red line shows the relative cutoff at 0.66 on the right-hand
+#|   scale. Red points mark the lynx peaks above it.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = 0.66) +
   geom_hline(yintercept = min(lynx) + (max(lynx) - min(lynx)) * 0.66, 
@@ -183,6 +221,9 @@ p.lx0 +
 In the very unlikely cases of wanting to highlight only the shorter peaks, a value in $-1\ldots0$ can be passed as argument to `global.threshold`.
 
 ```{r}
+#| fig.alt: >-
+#|   Red dots mark the shorter lynx peaks selected by the negative relative
+#|   threshold. The tallest crests have no red dot.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = -0.66)
 ```
@@ -190,6 +231,10 @@ p.lx0 +
 The threshold is highlighted with a red line and on the right side axis ticks show values expressed relative to the data range with a negative sign.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   The dashed red cutoff separates marked low crests below it from
+#|   unmarked high crests above it. The right-hand axis shows negative
+#|   fractions of the lynx count range.
 p.lx0 +
   stat_peaks(colour = "red", global.threshold = -0.66) +
   geom_hline(yintercept = min(lynx) + (max(lynx) - min(lynx)) * 0.66, 
@@ -208,6 +253,10 @@ p.lx0 +
 The threshold works similarly for valleys and peaks, with larger values making the selection more strict.
 
 ```{r}
+#| fig.alt: >-
+#|   Blue dots mark the deepest local valleys in the lynx series. A
+#|   threshold of 0.97 selects minima near the bottom of the observed
+#|   range.
 p.lx0 +
   stat_valleys(colour = "blue", global.threshold = 0.97)
 ```
@@ -215,6 +264,10 @@ p.lx0 +
 In the annotated plot below, the value of the argument passed to `global.threshold` is highlighted with a blue line. The range of accepted relative threshold values is shown on the axis on the right, in which tick labels go in the reverse direction compared to  peaks.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   Blue dots mark deep lynx valleys below a dashed blue cutoff. The
+#|   right-hand axis places 0.97 near the bottom, where the deepest minima
+#|   occur.
 p.lx0 +
   stat_valleys(colour = "blue", global.threshold = 0.97) +
   geom_hline(yintercept = max(lynx) - (max(lynx) - min(lynx)) * 0.97, 
@@ -235,6 +288,10 @@ p.lx0 +
 With a less regular time series with a superimposed trend or a change point like the `Nile` series of water flow, `span` and `global.threshold` are not able to separate prominent narrow peaks from broader or less prominent ones.
 
 ```{r}
+#| fig.alt: >-
+#|   Line plot with points showing annual Nile flow from 1871 to 1970. The
+#|   flow varies sharply from year to year and shifts to generally lower
+#|   values around 1900.
 p.nl0 <- 
   ggplot(Nile, as.numeric = FALSE) +
   geom_line() +
@@ -251,6 +308,10 @@ Setting `global.threshold` would not help as a change point around year 1900
 makes it impossible to find a suitable value.
 
 ```{r}
+#| fig.alt: >-
+#|   Nile flow with local maxima marked in red. A five-observation window
+#|   highlights peaks at both the higher early flows and the lower later
+#|   flows.
 p.nl0 +
   stat_peaks(colour = "red")
 ```
@@ -260,6 +321,10 @@ Parameter `local.threshold` makes it possible to add a threshold to use within t
 Comparing to the median of the window tends to ignore the broader peaks.
 
 ```{r}
+#| fig.alt: >-
+#|   Red points mark Nile peaks that rise more than 15 percent of the
+#|   overall flow range above their local median. The criterion selects
+#|   prominent peaks from both sides of the early drop in flow.
 p.nl0 +
   stat_peaks(colour = "red", local.threshold = 0.15)
 ```
@@ -267,6 +332,10 @@ p.nl0 +
 The same plot as above, annotated. The running median for the same span is shown as a red dashed line. Peaks that are more than 0.15 relative units from the running median line are retained.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   Nile flow in black with its five-observation running median in red.
+#|   Red points mark peaks that rise more than 15 percent of the data range
+#|   above that reference.
 p.nl0 +
   geom_line(aes(y = stats::runmed(Nile, k = 5, endrule = "median")), colour = "red") +
   stat_peaks(colour = "red", local.threshold = 0.15) +
@@ -284,6 +353,10 @@ p.nl0 +
 Using `local.base = "farthest"` test for the range of values within the window, thus penalizing much less broad peaks as  long as they fit within the width of the window given by `span`. The example below works well for the `Nile` time series.
 
 ```{r}
+#| fig.alt: >-
+#|   Red markers highlight Nile peaks using a local cutoff of 25 percent of
+#|   the flow range above the lowest value in each window. This criterion
+#|   also retains prominent broad peaks.
 p.nl0 +
   stat_peaks(colour = "red", 
              local.threshold = 0.25, 
@@ -293,6 +366,10 @@ p.nl0 +
 The same plot as above, annotated. The running minimum for the same span is shown as a red dashed line. Peaks that are more than 0.25 relative units from the running minimum line are retained.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   Nile flow in black and a five-observation running minimum in red.
+#|   Selected peaks are marked in red above this local reference. The
+#|   right-hand scale expresses heights relative to the full range.
 p.nl0 +
   geom_line(aes(y = caTools::runmin(Nile, 
                                     k = 5, 
@@ -315,6 +392,9 @@ p.nl0 +
 Local thresholds work for valleys in the same way as for peaks. A larger value for `local.threshold` results in fewer valleys highlighted.
 
 ```{r}
+#| fig.alt: >-
+#|   Blue points mark local Nile valleys that fall more than 15 percent of
+#|   the full flow range below the median in their window.
 p.nl0 +
   stat_valleys(colour = "blue", local.threshold = 0.15)
 ```
@@ -322,6 +402,10 @@ p.nl0 +
 The same plot as above, annotated. The running median for the same span is shown as a blue dashed line. Peaks that are more than 0.15 relative units from the running median line are retained. The moving median line is the same as used for peaks, but the distance assessed for valleys is downwards from this line instead of upwards for peaks.
 
 ```{r, echo=FALSE}
+#| fig.alt: >-
+#|   Nile flow in black with a blue running median. Blue points identify
+#|   dips far enough below the median, and the right-hand scale increases
+#|   downward to show relative depth.
 p.nl0 +
   geom_line(aes(y = stats::runmed(Nile, k = 5, endrule = "median")), colour = "blue") +
   stat_valleys(colour = "blue", local.threshold = 0.15) +
@@ -343,6 +427,9 @@ As shown above, the `local.threshold` argument is used _as is_ when the argument
 The default mappings to aesthetics support additional geometries, including `geom_text()` and `geom_label()`. In this example the `position`, `hjust` and `angle` arguments are passed along to the geom while the `x.label.format` argument is handled by the statistic, to create labels containing only the year component of variable `time`. In the case of variables of class `Date` like on this case, the format specification is that of function `strptime()` as described in its documentation. 
 
 ```{r}
+#| fig.alt: >-
+#|   Four-digit year labels are rotated vertically above the local peaks of
+#|   the lynx time series.
 p.lx0 +
   stat_peaks(geom = "text",
              x.label.fmt = "%Y",
@@ -355,6 +442,9 @@ p.lx0 +
 The repulsive geoms from package ['ggrepel'](https://ggrepel.slowkow.com/) are also specifically supported. The two stats handle this as a special case, returning the coordinates of all observations to ensure that they are not overlapped by repulsed text or labels.
 
 ```{r}
+#| fig.alt: >-
+#|   The lynx series has year labels positioned with repulsion near the
+#|   peaks to reduce overlap with the line and other labels.
 p.lx0 +
   stat_peaks(geom = "text_repel",
              x.label.fmt = "%Y",
@@ -365,6 +455,10 @@ p.lx0 +
 When calling `stat_valleys()`, what needs to be changed compared to when calling `stat_peaks()` above is the direction of the nudge applied, to push labels above peaks and below valleys.
 
 ```{r}
+#| fig.alt: >-
+#|   Red dots and year labels identify peaks of the lynx series. Blue dots
+#|   and year labels identify valleys, with the text placed below the
+#|   troughs.
 p.lx0 +
   stat_peaks(x.label.fmt = "%Y",
              geom = "text_repel",
@@ -386,6 +480,9 @@ p.lx0 +
 As seen above, by default _x_-labels are mapped to aesthetic `label`. Labels for _y_ values at peaks are also generated and can be mapped as usual. In the case of variables of mode `numeric`, the format specification used is that of function `sprintf()`. 
 
 ```{r}
+#| fig.alt: >-
+#|   Red dots mark lynx peaks. Vertical labels above them give the number
+#|   of skins, prefixed with n equals.
 p.lx0 +
   stat_peaks(aes(label = after_stat(y.label)),
              y.label.fmt = "n=%i",
@@ -402,6 +499,9 @@ p.lx0 +
 A mapping to the `label` aesthetic can be created with function `use_label()`.
 
 ```{r}
+#| fig.alt: >-
+#|   Red dots mark lynx peaks. Rotated labels above the peaks give both the
+#|   year and the number of skins.
 p.lx0 +
   stat_peaks(use_label("x", "y", sep = " "),
              x.label.fmt = "%Y:",
@@ -419,6 +519,9 @@ p.lx0 +
 It is also easy to combine _x_ and _y_ labels within a call to `aes()`. Function `paste()` or any other character string manipulation function can be used within a call to `aes()` to "edit" the text to be added to the plot.
 
 ```{r}
+#| fig.alt: >-
+#|   Vertical labels show the year and skin count for each red lynx peak.
+#|   The labels are displaced upward to leave the data line visible.
 p.lx0 +
   stat_peaks(aes(label = after_stat(paste(x.label, y.label))),
              x.label.fmt = "%Y:",
@@ -438,6 +541,10 @@ The default mappings support `geom_text()`, `geom_label()`, `geom_rug()`, `geom_
 Using `geom_rug()` the position of the peaks can be shown on the inside of the axis, and using `position_nudge_to()` the text annotations can be moved next to them. Using `geom_text_repel()` with `direction = "x"` we enable horizontal repulsion and with `min.segment.length = Inf` we disable the drawing of connecting line segments.
 
 ```{r}
+#| fig.alt: >-
+#|   Tick marks just inside the top edge indicate lynx peak years. Year
+#|   labels sit beside the ticks and can move horizontally to avoid
+#|   crowding.
 p.lx0 +
   stat_peaks(x.label.fmt = "%Y",
              geom = "text_repel",
@@ -454,6 +561,10 @@ p.lx0 +
 To use multiple geoms to annotate peaks, the stat must be called multiple times, once for each geom. Passing `span = NULL` sets the window where maxima are searched for to encompass the whole data set, thus, only the global maximum and the global minimum are annotated. A more elaborate label is assembled in a call to `paste()` when specifying the aesthetic mapping with `aes()`. `geom_text_s()` differs from `geom_text()` in that a connecting segment is drawn together with the text.
 
 ```{r}
+#| fig.alt: >-
+#|   The lynx series labels its global maximum of 6,991 skins in 1904 in
+#|   red and its minimum of 39 skins in 1889 in blue. Rugs, horizontal
+#|   guides, and short connectors link the annotations to the series.
 p.lx0 +
   stat_peaks(f_use_label("y", "x", format = "%s lynx skins in year %s"),             x.label.fmt = "%Y",
              y.label.fmt = "%i",
@@ -496,6 +607,10 @@ p.lx0 +
 With a few more tweaks we can modify the design of the annotations in the plot above. To use `geom_segment()` we need to map a constant to aesthetic `xend`.
 
 ```{r}
+#| fig.alt: >-
+#|   The lynx series labels the 1904 maximum and the 1889 minimum. Red and
+#|   blue horizontal arrows extend leftward from the corresponding values
+#|   toward the count axis.
 p.lx0 +
   stat_peaks(f_use_label("y", "x", format = "%s lynx skins in year %s"),
              x.label.fmt = "%Y",
@@ -537,6 +652,10 @@ p.lx0 +
 Function `find_peaks()`, is used internally in 'ggpmisc' to implement `stat_peaks()` and `stat_valleys()`. It can also be used on its own. Because of of the value expected by scales' `breaks` parameter, it is not possible to call this function on the fly within a call to `sec_axis()` with the plot data as an implicit argument. However, `find_peaks()` can be used to generate vectors that can be passed as an argument to parameter `breaks`. Below, to set breaks in the secondary axes, we first create vectors of dates and numbers of lynx skins at the peaks, and then use them as arguments in the call to `sec_axis()`. Currently, there is no support for repulsion of axis tick labels in packages 'ggplot2' or 'legendry', so to avoid overlaps fewer peaks have to be annotated than in the plots above. The use of `span = 11`, which is wider than the default `span = 5`, to search for peaks results in the peak in year 1916, adjacent to that in year 1913, to be ignored.
 
 ```{r}
+#| fig.alt: >-
+#|   Lynx skin counts by year. The secondary top axis lists years with
+#|   peaks in an 11-observation window, and the secondary right axis gives
+#|   the corresponding skin counts.
 lynx.tb <- try_tibble(lynx)
 my.time.breaks <- lynx.tb$time[find_peaks(lynx.tb$x, span = 11)]
 my.skins.breaks <- lynx.tb$x[find_peaks(lynx.tb$x, span = 11)]
